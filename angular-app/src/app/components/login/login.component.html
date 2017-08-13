@@ -1,0 +1,26 @@
+<h2 class="page-header">Login</h2>
+<form (ngSubmit)="onSubmit()" #f="ngForm">
+  <div class="form-group">
+    <label for="username">Username</label>
+    <input
+      type="text"
+      name="username"
+      id="username"
+      class="form-control"
+      ngModel
+      required
+    >
+  </div>
+  <div class="form-group">
+    <label for="password">Password</label>
+    <input
+      type="password"
+      id="password"
+      name="password"
+      class="form-control"
+      ngModel
+      required
+    >
+  </div>
+  <input [disabled]="!f.valid" type="submit" class="btn btn-primary" value="Login">
+</form>
