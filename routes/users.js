@@ -34,7 +34,7 @@ router.post('/authenticate', (req, res) => {
             return res.json({success:false, msg: 'User not found'})
         }
 
-        user.comparePassword(password, user.password, (err, isMatch) => {
+        User.comparePassword(password, user.password, (err, isMatch) => {
             if(err) throw err;
             if(isMatch) {
                 const token = jwt.sign(user, config.secret, {

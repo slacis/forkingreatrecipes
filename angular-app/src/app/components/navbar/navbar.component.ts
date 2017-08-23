@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {AuthService} from "../../services/auth.service";
 import {FlashMessagesService} from "angular2-flash-messages";
 import {Router} from "@angular/router";
+import {DataStorageService} from "../../services/data-storage.service";
 
 @Component({
   selector: 'app-navbar',
@@ -12,7 +13,8 @@ export class NavbarComponent implements OnInit {
 
   constructor(private authService: AuthService,
               private flashMessage: FlashMessagesService,
-              private router: Router
+              private router: Router,
+              private dataStorageService: DataStorageService
   ) { }
 
   ngOnInit() {
@@ -27,6 +29,10 @@ export class NavbarComponent implements OnInit {
     );
     this.router.navigate(['/login']);
     return false;
+  }
+
+  onFetchData() {
+    this.dataStorageService.getRecipes();
   }
 
 }

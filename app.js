@@ -35,6 +35,7 @@ mongoose.connection.on('error', (err) => {
 
 //  ROUTE FILES
 const users = require('./routes/users');
+const scrape = require('./routes/scrape');
 
 //  STATIC FOLDER
 app.use(express.static(path.join(__dirname, 'public')));
@@ -45,7 +46,7 @@ app.use(express.static("public"));
 
 //  SET ROUTES
 app.use('/users', users);
-
+app.use('', scrape);
 //  INDEX ROUTE
 app.get('/', (req, res) => {
     res.send("working");
