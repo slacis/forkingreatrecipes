@@ -7,13 +7,18 @@ const   express = require('express'),
         config = require('./config/database');
 
 const app = express();
-
-//  ACTIVATE CORS
-app.use(cors());
+//  ROUTE FILES
+const users = require('./routes/users');
+const scrape = require('./routes/scrape');
 
 //  BODY PARSER MIDDLEWARE
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json())
+
+//  ACTIVATE CORS
+app.use(cors());
+
+
 
 //  PASSPORT MIDDLEWARE
 app.use(passport.initialize());
@@ -32,10 +37,6 @@ mongoose.connection.on('connected', () => {
 mongoose.connection.on('error', (err) => {
     console.log('db error occurred: ', err.message);
 });
-
-//  ROUTE FILES
-const users = require('./routes/users');
-const scrape = require('./routes/scrape');
 
 //  STATIC FOLDER
 app.use(express.static(path.join(__dirname, 'public')));

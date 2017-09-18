@@ -3,6 +3,7 @@ import {ActivatedRoute, Params, Router} from '@angular/router';
 import {FormArray, FormControl, FormGroup, Validators} from '@angular/forms';
 import {RecipeService} from '../../../services/recipe.service';
 import {Recipe} from '../recipe.model';
+import {DataStorageService} from "../../../services/data-storage.service";
 
 @Component({
   selector: 'app-recipe-edit',
@@ -15,7 +16,10 @@ editMode = false;
 recipeForm: FormGroup;
   constructor(private route: ActivatedRoute,
   private recipeService: RecipeService,
-  private router: Router) { }
+  private router: Router,
+  private dataStorageService: DataStorageService) { }
+  inputMethod = "scrape";
+  scrapeURL= "Enter URL Here!"
 
   ngOnInit() {
     this.route.params
@@ -88,5 +92,10 @@ recipeForm: FormGroup;
 
   onDeleteIngredient(index: number) {
     (<FormArray>this.recipeForm.get('ingredients')).removeAt(index);
+  }
+
+  onScrape() {
+    console.log(this.scrapeURL)
+    this.dataStorageService.scrapeRecipe(this.scrapeURL);
   }
 }
