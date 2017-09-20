@@ -37,6 +37,7 @@ recipeForm: FormGroup;
     let recipeImagePath = '';
     let recipeDescription = '';
     const recipeIngredients = new FormArray([]);
+    const recipeMethod = new FormArray([]);
 
     if (this.editMode) {
       const recipe = this.recipeService.getRecipe(this.id);
@@ -53,12 +54,24 @@ recipeForm: FormGroup;
         )
         }
       }
+      if (recipe['cookmethod']) {
+        for (const method of recipe.cookmethod) {
+          recipeMethod.push(
+            new FormGroup({
+              'stepNo': new FormControl(method.stepNo, Validators.required),
+              'explanation': new FormControl(method.explanation, Validators.required),
+              // 'amount': new FormControl(ingredient.amount, [Validators.required, Validators.pattern(/^[1-9]+[0-9]*$/)])
+            })
+          )
+        }
+      }
     }
     this.recipeForm = new FormGroup({
       'name': new FormControl(recipeName, Validators.required),
       'imagePath': new FormControl(recipeImagePath, Validators.required),
       'description': new FormControl(recipeDescription, Validators.required),
-      'ingredients': recipeIngredients
+      'ingredients': recipeIngredients,
+      'cookmethod': recipeMethod
     })
   }
 
@@ -86,12 +99,25 @@ recipeForm: FormGroup;
     )
   }
 
+  onAddStep() {
+    (<FormArray>this.recipeForm.get('cookmethod')).push(
+      new FormGroup({
+        'name': new FormControl(null, Validators.required)
+        // 'amount': new FormControl(null, [Validators.required, Validators.pattern(/^[1-9]+[0-9]*$/)])
+      })
+    )
+  }
+
   onCancel() {
   this.router.navigate(['../'], {relativeTo: this.route})
   }
 
   onDeleteIngredient(index: number) {
     (<FormArray>this.recipeForm.get('ingredients')).removeAt(index);
+  }
+
+  onDeleteMethod(index: number) {
+    (<FormArray>this.recipeForm.get('cookmethod')).removeAt(index);
   }
 
   onScrape() {

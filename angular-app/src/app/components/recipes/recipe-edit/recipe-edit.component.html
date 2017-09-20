@@ -1,3 +1,4 @@
+<div class="jumbotron">
 <div *ngIf="!editMode" class="row">
   <div class="col-xs-12 btn-group">
     <div class="upper-buttons">
@@ -10,7 +11,7 @@
     </div>
   </div>
 </div>
-<div *ngIf="inputMethod==='scrape'" class="row">
+<div *ngIf="inputMethod==='scrape' && !editMode" class="row">
   <div class="row">
     <div class="col-xs-12">
       <div class="form-group">
@@ -28,7 +29,7 @@
   </div>
 </div>
 
-<div *ngIf="inputMethod==='manual'" class="row">
+<div *ngIf="inputMethod==='manual' || editMode" class="row">
   <div class="col-xs-12">
     <form [formGroup]="recipeForm" (ngSubmit)="onSubmit()">
       <div class="row">
@@ -112,6 +113,38 @@
 
             </div>
           </div>
+        </div>
+        <hr>
+
+          <div class="row">
+            <div class="col-xs-12" formArrayName="cookmethod">
+              <div class="row"
+                   *ngFor="let methodCtrl of recipeForm.get('cookmethod').controls;
+                 let i = index"
+                   [formGroupName]="i"
+                   style="margin-top:10px;"
+              >
+                <div class="col-xs-2">
+                  <input type="number"
+                         class="form-control"
+                         formControlName="stepNo"
+                  >
+                </div>
+                <div class="col-xs-8">
+                <input type="text"
+                class="form-control"
+                formControlName="explanation"
+                >
+                </div>
+                <div class="col-xs-2">
+                  <button type="button"
+                          class="btn btn-danger"
+                          (click)="onDeleteMethod(i)"
+                  >x</button>
+                </div>
+
+              </div>
+            </div>
 
         </div>
         <hr>
@@ -121,7 +154,14 @@
           </div>
         </div>
 
+        <div class="row">
+          <div class="col-xs-12">
+            <button type="button" class="btn btn-success" (click)="onAddStep()">Add Step</button>
+          </div>
+        </div>
+
       </div>
     </form>
   </div>
+</div>
 </div>
