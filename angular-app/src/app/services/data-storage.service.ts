@@ -12,15 +12,30 @@ export class DataStorageService {
   constructor(private http: Http, private recipeService: RecipeService,
               private authService: AuthService) {
   }
+  headers
 
-  // storeRecipes() {
-  //   const token = this.authService.getToken();
-  //   return this.http.put('https://udemy-tut-sim.firebaseio.com/recipe.json?auth=' + token,
-  //   this.recipeService.recipes);
-  // }
+  // Function to create headers, add token, to be used in HTTP requests
+  createAuthenticationHeaders() {
+    this.headers = new Headers();
+    this.authService.loadToken();
+    this.headers.append('Authorization', this.authService.authToken)
+    this.headers.append('Content-Type','application/json');
+    this.headers.append('Access-Control-Allow-Origin', '*');
+  }
+//   storeRecipes() {
+//   // const token = this.authService.getToken();
+//   return this.http.put('https://udemy-tut-sim.firebaseio.com/recipe.json?auth=' + token,
+//     this.recipeService.recipes);
+// }
+
+  getProfile(){
+
+  }
+
   getRecipes() {
     // const token = this.authService.getToken();
-    return this.http.get('http://localhost:3000/scrape')
+    this.createAuthenticationHeaders();
+    return this.http.get('http://localhost:3000/recipes',  {headers: this.headers})
       .map(
         (response: Response) => {
           console.log(response)
@@ -44,12 +59,13 @@ export class DataStorageService {
     // const token = this.authService.getToken();
     let scrapeURL = JSON.stringify({url: url})
     console.log('data' + scrapeURL)
-    let headers = new Headers({
-      'Content-Type': 'application/json'
-    });
+    // let headers = new Headers({
+    //   'Content-Type': 'application/json'
+    // });
+    this.createAuthenticationHeaders()
 
 
-    return this.http.post('http://localhost:3000/scrapeurl', scrapeURL, {headers: headers})
+    return this.http.post('http://localhost:3000/scrapeurl', scrapeURL, {headers: this.headers})
       .map(
         (response: Response) => {
           console.log(response)

@@ -10,6 +10,7 @@ const app = express();
 //  ROUTE FILES
 const users = require('./routes/users');
 const scrape = require('./routes/scrape');
+const recipe = require('./routes/recipes');
 
 //  BODY PARSER MIDDLEWARE
 app.use(bodyParser.urlencoded({extended:true}));
@@ -48,6 +49,8 @@ app.use(express.static("public"));
 //  SET ROUTES
 app.use('/users', users);
 app.use('', scrape);
+app.use('', recipe);
+
 //  INDEX ROUTE
 app.get('/', (req, res) => {
     res.send("working");

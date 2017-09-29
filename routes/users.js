@@ -33,7 +33,6 @@ router.post('/authenticate', (req, res) => {
         if(!user) {
             return res.json({success:false, msg: 'User not found'})
         }
-
         User.comparePassword(password, user.password, (err, isMatch) => {
             if(err) throw err;
             if(isMatch) {
