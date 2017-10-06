@@ -28,6 +28,29 @@ export class DataStorageService {
 //     this.recipeService.recipes);
 // }
 
+  addRecipe(recipe) {
+    // const token = this.authService.getToken();
+    this.createAuthenticationHeaders()
+    return this.http.post('http://localhost:3000/addrecipe', recipe, {headers: this.headers})
+      .map(
+        (response: Response) => {
+          console.log(response)
+          const recipes: Recipe[] = response.json();
+          for (const recipe of recipes) {
+            if (!recipe['ingredients']) {
+              recipe['ingredients'] = [];
+            }
+          }
+          return recipes;
+        }
+      )
+      .subscribe(
+        (recipes: Recipe[]) => {
+          // this.recipeService.addRecipe(recipes[0]);
+        }
+      )
+  }
+
   getProfile(){
 
   }

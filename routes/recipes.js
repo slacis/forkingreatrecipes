@@ -11,7 +11,7 @@ const   express = require('express'),
 // GET ALL RECIPES ROUTE
 router.get('/recipes',  passport.authenticate('jwt', {session: false}), (req, res) => {
     //get all recipes
-    Recipe.find({}, (err, userRecipes) => {
+    Recipe.find({'user': req.user._id}, (err, userRecipes) => {
         if(err){
             console.log(err);
         } else {

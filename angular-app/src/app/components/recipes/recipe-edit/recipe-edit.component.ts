@@ -86,7 +86,8 @@ recipeForm: FormGroup;
     if (this.editMode) {
       this.recipeService.updateRecipe(this.id, newRecipe)
     } else {
-      this.recipeService.addRecipe(newRecipe);
+      this.dataStorageService.addRecipe(newRecipe)
+      // this.recipeService.addRecipe(newRecipe);
     }
     this.onCancel();
   }
@@ -103,7 +104,8 @@ recipeForm: FormGroup;
   onAddStep() {
     (<FormArray>this.recipeForm.get('cookmethod')).push(
       new FormGroup({
-        'name': new FormControl(null, Validators.required)
+        'stepNo': new FormControl(null, Validators.required),
+        'explanation': new FormControl(null, Validators.required),
         // 'amount': new FormControl(null, [Validators.required, Validators.pattern(/^[1-9]+[0-9]*$/)])
       })
     )

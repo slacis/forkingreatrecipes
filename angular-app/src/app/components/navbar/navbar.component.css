@@ -1,3 +1,9 @@
+.navbar {
+  font-family: 'Passion One', cursive;
+  font-size: 1.2em;
+  text-transform: uppercase;
+}
+
 .navbar-brand {
   padding: 0px;
 }
@@ -5,4 +11,16 @@
   height: 100%;
   padding: 15px;
   width: auto;
+}
+
+
+.logo {
+  font-size:3em;
+  display: inline-block;
+  font-family: 'Dancing Script', cursive;
+
+}
+
+.search-padding{
+  padding-top: 1em;
 }
