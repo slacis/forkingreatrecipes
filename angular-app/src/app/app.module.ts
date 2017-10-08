@@ -23,6 +23,7 @@ import {RecipeStartComponent} from "./components/recipes/recipe-start/recipe-sta
 import {RecipeDetailComponent} from "./components/recipes/recipe-detail/recipe-detail.component";
 import {DropdownDirective} from "./shared/dropdown.directive";
 import {DataStorageService} from "./services/data-storage.service";
+import { FilterPipe } from './pipes/filter.pipe';
 
 const appRoutes: Routes = [
   // {path:'', component: HomeComponent},
@@ -54,7 +55,8 @@ const appRoutes: Routes = [
     RecipeListComponent,
     RecipeDetailComponent,
     RecipeStartComponent,
-    DropdownDirective
+    DropdownDirective,
+    FilterPipe
   ],
   imports: [
     BrowserModule,

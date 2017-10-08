@@ -1,13 +1,70 @@
 <div class="row">
   <div class="col-xs-12">
     <button class="btn btn-success" (click)="onNewRecipe()">New Recipe</button>
+    <button class="btn btn-warning" (click)="onRandomRecipe()">Random Recipe</button>
   </div>
 </div>
 <hr>
 <div class="row">
   <div class="col-xs-12" >
 
-    <app-recipe-item  *ngFor="let recipeEl of recipes; let i = index"
+    <div  class="row">
+      <div class="col-xs-12 btn-group">
+        <div class="upper-buttons">
+          <label class="btn btn-primary active">
+            <input type="radio" [(ngModel)]="searchMethod" value="recipe" name="searchMethod" id="option1" autocomplete="off" checked> Recipe Search
+          </label>
+          <label class="btn btn-primary">
+            <input type="radio" [(ngModel)]="searchMethod" value="ingredient" name="searchMethod" id="option2" autocomplete="off"> Ingredient Search
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="searchMethod==='recipe'" class="row">
+      <div class="form-inline">
+        <div class="col-xs-8 col-md-8">
+          <input class="form-control" type="text" [(ngModel)]="searchTerm">
+          <button class="btn btn-outline-success" type="submit">Search</button>
+        <hr>
+        </div>
+      </div>
+    </div>
+    <form [formGroup]="recipeForm">
+    <div *ngIf="searchMethod==='ingredient'" class="row">
+      <div class="col-xs-12 form-group" formArrayName="ingredients">
+        <label>Ingredients</label>
+        <div class="row">
+          <div class="col-xs-3">
+            <button type="button" class="btn btn-success" (click)="onAddIngredient()">Add Ingredient</button>
+          </div>
+        </div>
+        <div class="row"
+             *ngFor="let ingredientCtrl of recipeForm.get('ingredients').controls;
+                 let i = index"
+             [formGroupName]="i"
+             style="margin-top:10px;"
+        >
+          <div class="col-xs-8">
+            <input type="text"
+                   class="form-control"
+                   formControlName="name"
+            >
+          </div>
+          <div class="col-xs-2">
+            <button type="button"
+                    class="btn btn-danger"
+                    (click)="onDeleteIngredient(i)"
+            >x</button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </form>
+    <hr>
+
+    <app-recipe-item  *ngFor="let recipeEl of recipes | filter:searchTerm:'ingredients'; let i = index"
                       [recipe]="recipeEl"
                       [index] = "i"
     ></app-recipe-item>

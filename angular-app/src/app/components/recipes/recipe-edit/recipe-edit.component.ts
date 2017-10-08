@@ -19,7 +19,7 @@ recipeForm: FormGroup;
   private router: Router,
   private dataStorageService: DataStorageService) { }
   inputMethod = "scrape";
-  scrapeURL= "Enter URL Here!"
+  scrapeURL
 
   ngOnInit() {
     this.route.params
