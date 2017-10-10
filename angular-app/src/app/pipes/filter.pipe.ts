@@ -21,17 +21,27 @@ export class FilterPipe implements PipeTransform {
 //
 // }
 
-  transform(value: any, filterString: string, propertyName: string): any {
-    if (value.length === 0 || filterString == '') {
+  transform(value: any, filterString: [string], propertyName: string): any {
+    if (value.length === 0 || filterString.length === 0) {
       return value;
     }
+    let count = 0;
     const resultArray = [];
     for (const item of value) {
       for (const child of item[propertyName]) {
-        if (child['name'].toLowerCase().includes(filterString.toLowerCase())) {
-          resultArray.push(item);
+        for(const subString of filterString){
+          if (subString != null) {
+            if (child['name'].toLowerCase().includes(subString.toLowerCase())) {
+              count++;
+              console.log(child['name'])
+            }
+          }
         }
       }
+      if (count >= 2) {
+        resultArray.push(item);
+      }
+      count = 0;
     }
     return resultArray;
   }

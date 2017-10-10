@@ -14,11 +14,15 @@ export class RecipeListComponent implements OnInit, OnDestroy {
   subscription: Subscription;
   recipes: Recipe[];
   searchTerm = '';
+  searchIngredients = []
   // OPTIONS: recipe or ingredient
   searchMethod = "recipe";
   recipeForm: FormGroup;
   private initForm() {
     const recipeIngredients = new FormArray([]);
+    recipeIngredients.push(new FormGroup({
+      'name': new FormControl(null, Validators.required)
+    }))
     this.recipeForm = new FormGroup({
       'ingredients': recipeIngredients
     })
@@ -60,6 +64,20 @@ export class RecipeListComponent implements OnInit, OnDestroy {
         // 'amount': new FormControl(null, [Validators.required, Validators.pattern(/^[1-9]+[0-9]*$/)])
       })
     )
+  }
+
+  onDeleteIngredient(index: number) {
+    (<FormArray>this.recipeForm.get('ingredients')).removeAt(index);
+  }
+
+  onSubmit() {
+      let tempArray = []
+      this.recipeForm.value['ingredients'].forEach((ingredient) =>
+      {
+       tempArray.push(ingredient.name)
+      })
+    this.searchIngredients = tempArray
+    console.log(this.searchIngredients)
   }
 
 }
