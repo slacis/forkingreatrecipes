@@ -27,9 +27,11 @@
         <div class="col-xs-8 col-md-8 search-padding">
           <label>Recipe name</label>
           <input class="form-control" type="text" [(ngModel)]="searchTerm">
+          <button class="btn btn-outline-success" (click)="onSubmit()">Search</button>
         <hr>
         </div>
       </div>
+
     </div>
     <form [formGroup]="recipeForm" (ngSubmit)="onSubmit()">
     <div *ngIf="searchMethod==='ingredient'" class="row">
@@ -67,7 +69,7 @@
   </form>
     <hr>
 
-    <app-recipe-item  *ngFor="let recipeEl of recipes | filter:searchIngredients:'ingredients'; let i = index"
+    <app-recipe-item  *ngFor="let recipeEl of recipes | filter:searchIngredients:searchMethod; let i = index"
                       [recipe]="recipeEl"
                       [index] = "recipes.indexOf(recipeEl)"
     ></app-recipe-item>

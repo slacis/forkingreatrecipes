@@ -6,44 +6,53 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class FilterPipe implements PipeTransform {
 
-//   transform(value: any, filterString: string, propertyName: string): any {
-//     if (value.length === 0 || filterString == '') {
-//       return value;
-//     }
-//     const resultArray = [];
-//     for (const item of value) {
-//       if (item[propertyName].toLowerCase().includes(filterString.toLowerCase())) {
-//         resultArray.push(item);
-//       }
-//     }
-//     return resultArray;
-//   }
-//
-// }
+  // transform(value: any, filterString: string, propertyName: string): any {
+  //   if (value.length === 0 || filterString == '') {
+  //     return value;
+  //   }
+  //   const resultArray = [];
+  //   for (const item of value) {
+  //     if (item[propertyName].toLowerCase().includes(filterString.toLowerCase())) {
+  //       resultArray.push(item);
+  //     }
+  //   }
+  //   return resultArray;
+  // }
 
-  transform(value: any, filterString: [string], propertyName: string): any {
+
+
+  transform(value: any, filterString: any, propertyName: string): any {
     if (value.length === 0 || filterString.length === 0) {
       return value;
     }
-    let count = 0;
+    // console.log("in pipe")
     const resultArray = [];
+    if (propertyName === 'recipe') {
+        for (const item of value) {
+            if (item['name'].toLowerCase().includes(filterString[0].toLowerCase())) {
+                resultArray.push(item);
+            }
+        }
+    } else {
+    let count = 0;
     for (const item of value) {
-      for (const child of item[propertyName]) {
+      for (const child of item['ingredients']) {
         for(const subString of filterString){
           if (subString != null) {
             if (child['name'].toLowerCase().includes(subString.toLowerCase())) {
               count++;
-              console.log(child['name'])
+              // console.log(child['name'])
             }
           }
         }
       }
-      if (count >= 2) {
+      if (count >= 1) {
         resultArray.push(item);
       }
       count = 0;
     }
-    return resultArray;
   }
+      return resultArray;
+}
 }
 
