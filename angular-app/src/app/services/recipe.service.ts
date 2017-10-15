@@ -10,20 +10,20 @@ export class RecipeService {
 
   private _recipes:
     Recipe[] = [
-    new Recipe('Chocolate Poo',
-      'Poo and chocolate yum',
-      'http://uploads.neatorama.com/wp-content/uploads/2010/10/doodrops1.jpg',
-      'user',
-      [
-        new Ingredient('2 meats'),
-        new Ingredient('3 dogs')
-      ],
-      [
-        new CookMethod(1, 'do a shit into a cup'),
-        new CookMethod(2, 'mix it the fuck up'),
-        new CookMethod(3, 'make the food')
-      ],
-    ),
+    // new Recipe('Chocolate Poo',
+    //   'Poo and chocolate yum',
+    //   'http://uploads.neatorama.com/wp-content/uploads/2010/10/doodrops1.jpg',
+    //   'user',
+    //   [
+    //     new Ingredient('2 meats'),
+    //     new Ingredient('3 dogs')
+    //   ],
+    //   [
+    //     new CookMethod(1, 'do a shit into a cup'),
+    //     new CookMethod(2, 'mix it the fuck up'),
+    //     new CookMethod(3, 'make the food')
+    //   ],
+    // ),
 
   ];
 

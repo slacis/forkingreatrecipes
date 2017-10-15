@@ -1,3 +1,4 @@
+// import {cooktime} from "../angular-app/src/app/components/recipes/recipe.model";
 const   express = require('express'),
     router = express.Router(),
     request = require('request'),
@@ -47,14 +48,14 @@ function runCherio(req, res, options) {
                 if (String(url).includes(cases[i])) break;
             }
 
-            var name, description, imagePath, ingredients, cookmethod;
+            var name, description, imagePath, ingredients, cookmethod, cooktime;
 
             // Run scraper
             switch (i) {
                 // Delicious
                 case 0:
                     recipe =
-                        scrapeDelicious($, name, description, imagePath, ingredients, cookmethod, req.user._id)
+                        scrapeDelicious($, name, description, imagePath, ingredients, cookmethod, req.user._id, cooktime)
                     postRecipe(recipe, res)
                     break;
                 //Taste
@@ -98,14 +99,22 @@ function scrapeTaste($, name, description, imagePath, ingredients, cookmethod, u
 
 // Scraper for Delicious recipes
 
-function scrapeDelicious($, name, description, imagePath, ingredients, cookmethod, user){
+function scrapeDelicious($, name, description, imagePath, ingredients, cookmethod, user, cooktime){
     console.log('in scrape delicious')
     ingredients = [];
     cookmethod = [];
+    cooktime;
     name = $('.content-main-title').text()
     console.log(name)
-    description = $('.single-asset-description-block').children().first().text()
-    imagePath = $('.block-lead-image').children().first().prop('src')
+    description = $('.introduction-text').text()
+    imagePath = $('.lead-image').first().prop('src')
+    prepTimeString = $('.cooking-info-block .text').eq(1).text()
+    cookTimeString = $('.cooking-info-block .text').eq(2).text()
+    console.log(cookTimeString)
+    prepTime = parseInt(prepTimeString.replace(/[^\d]/g, ''), 10)
+    cookTime = parseInt(cookTimeString.replace(/[^\d]/g, ''), 10)
+    cooktime = {'prepTime': prepTime, 'cookTime': cookTime};
+    console.log(cooktime)
     // user = user
     console.log(user)
     data = $('.ingredient').children().each(function () {
@@ -115,7 +124,7 @@ function scrapeDelicious($, name, description, imagePath, ingredients, cookmetho
     data = $('.step-description').each(function (index, method) {
         cookmethod.push({stepNo: index, explanation: ($(this).text()).trim()})
     })
-    recipe = createRecipe(name, description, imagePath, ingredients, cookmethod, user)
+    recipe = createRecipe(name, description, imagePath, ingredients, cookmethod, user, cooktime)
     return recipe
 
 }
@@ -129,6 +138,13 @@ function scrapeTaste($, name, description, imagePath, ingredients, cookmethod, u
     name = $('h1').text()
     console.log(name)
     description = $('.single-asset-description-block').children().first().text()
+    prepTimeString = $('ul.recipe-cooking-infos>li>b').eq(0).text()
+    // convert to string => seperate by '.' => multiply 0 index by 60 and add to first index
+    cookTimeString =  $('ul.recipe-cooking-infos>li>b').eq(1).text()
+    console.log(cookTimeString)
+    prepTime = parseInt(prepTimeString.replace(/[^\d]/g, ''), 10)
+    cookTime = parseInt(cookTimeString.replace(/[^\d]/g, ''), 10)
+    cooktime = {'prepTime': prepTime, 'cookTime': cookTime};
     imagePath = $('.lead-image-block').children().first().prop('src')
     // user = user
     console.log(user)
@@ -146,7 +162,7 @@ function scrapeTaste($, name, description, imagePath, ingredients, cookmethod, u
 
 // Function to create recipe from json
 
-function createRecipe(name, description, imagePath, ingredients, cookmethod, user) {
+function createRecipe(name, description, imagePath, ingredients, cookmethod, user, cooktime) {
     console.log('in create and post')
     json.name = name;
     json.description = description;
@@ -154,6 +170,7 @@ function createRecipe(name, description, imagePath, ingredients, cookmethod, use
     json.user = user;
     json.ingredients = ingredients;
     json.cookmethod = cookmethod;
+    json.cooktime = cooktime
 
     let recipe = new Recipe(json);
     return recipe

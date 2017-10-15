@@ -38,6 +38,7 @@ recipeForm: FormGroup;
     let recipeDescription = '';
     const recipeIngredients = new FormArray([]);
     const recipeMethod = new FormArray([]);
+    const recipecookTime = '';
 
     if (this.editMode) {
       const recipe = this.recipeService.getRecipe(this.id);
@@ -67,11 +68,12 @@ recipeForm: FormGroup;
       }
     }
     this.recipeForm = new FormGroup({
-      'name': new FormControl(recipeName, Validators.required),
-      'imagePath': new FormControl(recipeImagePath, Validators.required),
-      'description': new FormControl(recipeDescription, Validators.required),
-      'ingredients': recipeIngredients,
-      'cookmethod': recipeMethod
+        'name': new FormControl(recipeName, Validators.required),
+        'imagePath': new FormControl(recipeImagePath, Validators.required),
+        'description': new FormControl(recipeDescription, Validators.required),
+        'ingredients': recipeIngredients,
+        'cookmethod': recipeMethod,
+        'cooktime': new FormControl(recipecookTime, Validators.required),
     })
   }
 
@@ -82,7 +84,9 @@ recipeForm: FormGroup;
       this.recipeForm.value['imagePath'],
       localStorage.getItem('user')['_id'],
       this.recipeForm.value['ingredients'],
-      this.recipeForm.value['cookmethod']);
+      this.recipeForm.value['cookmethod'],
+      this.recipeForm.value['cooktime'])
+    ;
     if (this.editMode) {
       this.recipeService.updateRecipe(this.id, newRecipe)
     } else {
