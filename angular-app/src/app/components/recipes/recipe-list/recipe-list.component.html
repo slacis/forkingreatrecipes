@@ -21,6 +21,13 @@
       </div>
     </div>
 
+    <div class="row">
+      <div class="col-xs-8 col-md-8">
+        <h5>Taking less time than {{ totalCook }} mins</h5>
+        <input type="range" min="0" max="120" value="{{totalCook}}" [(ngModel)]="totalCook">
+      </div>
+    </div>
+
     <div *ngIf="searchMethod==='recipe'" class="row">
 
       <div class="form-inline">
@@ -69,7 +76,7 @@
   </form>
     <hr>
 
-    <app-recipe-item  *ngFor="let recipeEl of recipes | filter:searchIngredients:searchMethod; let i = index"
+    <app-recipe-item  *ngFor="let recipeEl of recipes | filter:searchIngredients:searchMethod:totalCookTime; let i = index"
                       [recipe]="recipeEl"
                       [index] = "recipes.indexOf(recipeEl)"
     ></app-recipe-item>

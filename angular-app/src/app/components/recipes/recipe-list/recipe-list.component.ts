@@ -18,6 +18,8 @@ export class RecipeListComponent implements OnInit, OnDestroy {
     // OPTIONS: recipe or ingredient
     searchMethod = "recipe";
     recipeForm: FormGroup;
+    totalCook = 0
+    totalCookTime = 500
     private initForm() {
         const recipeIngredients = new FormArray([]);
         recipeIngredients.push(new FormGroup({
@@ -73,6 +75,7 @@ export class RecipeListComponent implements OnInit, OnDestroy {
     onSubmit() {
       console.log(this.searchMethod)
       console.log(this.searchMethod === 'recipe')
+        this.totalCookTime = this.totalCook
         if (this.searchMethod === 'ingredient'){
             console.log("in submit")
             let tempArray = []

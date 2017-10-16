@@ -21,7 +21,7 @@ export class FilterPipe implements PipeTransform {
 
 
 
-  transform(value: any, filterString: any, propertyName: string): any {
+  transform(value: any, filterString: any, propertyName: string, timeValue: number): any {
     if (value.length === 0 || filterString.length === 0) {
       return value;
     }
@@ -29,13 +29,17 @@ export class FilterPipe implements PipeTransform {
     const resultArray = [];
     if (propertyName === 'recipe') {
         for (const item of value) {
-            if (item['name'].toLowerCase().includes(filterString[0].toLowerCase())) {
+            let totalTime = item['cooktime']['prepTime'] +item['cooktime']['cookTime']
+            console.log(totalTime)
+            console.log(timeValue)
+            if (item['name'].toLowerCase().includes(filterString[0].toLowerCase()) && totalTime < timeValue ) {
                 resultArray.push(item);
             }
         }
     } else {
     let count = 0;
     for (const item of value) {
+      let totalTime = item['cooktime']['prepTime'] +item['cooktime']['cookTime']
       for (const child of item['ingredients']) {
         for(const subString of filterString){
           if (subString != null) {
@@ -46,7 +50,7 @@ export class FilterPipe implements PipeTransform {
           }
         }
       }
-      if (count >= 1) {
+      if (count >= 1 && totalTime < timeValue) {
         resultArray.push(item);
       }
       count = 0;
