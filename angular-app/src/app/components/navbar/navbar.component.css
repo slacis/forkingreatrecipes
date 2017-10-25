@@ -2,6 +2,8 @@
   font-family: 'Passion One', cursive;
   font-size: 1.2em;
   text-transform: uppercase;
+  /*width: 59.5%;*/
+  /*margin: 1em auto;*/
 }
 
 .navbar-brand {
@@ -15,7 +17,7 @@
 
 
 .logo {
-  font-size:3em;
+  font-size:3.5em;
   display: inline-block;
   font-family: 'Dancing Script', cursive;
 

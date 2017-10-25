@@ -50,11 +50,13 @@
 </div>
 <div class="row">
   <div class="col-xs-12">
-    {{recipe.description}}
+    <p>{{recipe.description}}</p>
   </div>
 </div>
+<hr>
 <div class="row">
   <div class="col-xs-12">
+    <h4>Ingredients</h4>
     <ul class = "list-group">
       <li class = "list-group-item"
           *ngFor="let ingredient of recipe.ingredients">
@@ -65,7 +67,7 @@
 </div>
 <div class="row">
   <div class="col-xs-12">
-    <h5>Method</h5>
+    <h4>Method</h4>
     <ul class = "list-group">
       <li class = "list-group-item"
           *ngFor="let method of recipe.cookmethod">
