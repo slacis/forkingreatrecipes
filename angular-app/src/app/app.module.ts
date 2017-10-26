@@ -24,6 +24,7 @@ import {RecipeDetailComponent} from "./components/recipes/recipe-detail/recipe-d
 import {DropdownDirective} from "./shared/dropdown.directive";
 import {DataStorageService} from "./services/data-storage.service";
 import { FilterPipe } from './pipes/filter.pipe';
+import {NgxPaginationModule} from "ngx-pagination";
 
 const appRoutes: Routes = [
   // {path:'', component: HomeComponent},
@@ -64,7 +65,8 @@ const appRoutes: Routes = [
     FormsModule,
     ReactiveFormsModule,
     FlashMessagesModule,
-    HttpModule
+    HttpModule,
+    NgxPaginationModule
   ],
   providers: [AuthService, AuthGuard, RecipeService, DataStorageService],
   bootstrap: [AppComponent]

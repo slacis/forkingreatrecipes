@@ -18,8 +18,10 @@ export class RecipeListComponent implements OnInit, OnDestroy {
     // OPTIONS: recipe or ingredient
     searchMethod = "recipe";
     recipeForm: FormGroup;
-    totalCook = 0
+    totalCook = 120
     totalCookTime = 500
+    //initializing page number p to one
+    p: number = 1;
     private initForm() {
         const recipeIngredients = new FormArray([]);
         recipeIngredients.push(new FormGroup({
@@ -85,13 +87,17 @@ export class RecipeListComponent implements OnInit, OnDestroy {
             {
                 tempArray.push(ingredient.name)
             })
-            this.searchIngredients = tempArray
+            this.searchIngredients = tempArray.slice()
             console.log(this.searchIngredients)
         } else if (this.searchMethod === 'recipe') {
           // 0 Index having a value will result in recipe name search
             this.searchIngredients[0] = this.searchTerm
             console.log(this.searchIngredients[0])
         }
+    }
+
+    onClear(){
+      this.searchIngredients = []
     }
 
 }

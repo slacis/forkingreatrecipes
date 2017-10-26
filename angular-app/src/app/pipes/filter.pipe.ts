@@ -45,7 +45,7 @@ export class FilterPipe implements PipeTransform {
           if (subString != null) {
             if (child['name'].toLowerCase().includes(subString.toLowerCase())) {
               count++;
-              // console.log(child['name'])
+              console.log(child['name'])
             }
           }
         }

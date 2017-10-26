@@ -35,7 +35,7 @@
           <label>Recipe name</label>
           <input class="form-control" type="text" [(ngModel)]="searchTerm">
           <button class="btn btn-outline-success" (click)="onSubmit()">Search</button>
-        <hr>
+          <button class="btn btn-outline-success" type="button" (click)="onClear()">Clear</button>
         </div>
       </div>
 
@@ -71,15 +71,17 @@
 
         </div>
           <button class="btn btn-outline-success" type="submit">Search</button>
+          <button class="btn btn-outline-success" type="button" (click)="onClear()">Clear</button>
       </div>
     </div>
   </form>
     <hr>
 
-    <app-recipe-item  *ngFor="let recipeEl of recipes | filter:searchIngredients:searchMethod:totalCookTime; let i = index"
+    <app-recipe-item  *ngFor="let recipeEl of recipes | filter:searchIngredients:searchMethod:totalCookTime | paginate: { itemsPerPage: 5, currentPage: p }; let i = index"
                       [recipe]="recipeEl"
                       [index] = "recipes.indexOf(recipeEl)"
     ></app-recipe-item>
+    <pagination-controls (pageChange)="p = $event"></pagination-controls>
   </div>
 </div>
 
