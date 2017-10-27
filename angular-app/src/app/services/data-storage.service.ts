@@ -22,16 +22,35 @@ export class DataStorageService {
     this.headers.append('Content-Type','application/json');
     this.headers.append('Access-Control-Allow-Origin', '*');
   }
-//   storeRecipes() {
-//   // const token = this.authService.getToken();
-//   return this.http.put('https://udemy-tut-sim.firebaseio.com/recipe.json?auth=' + token,
-//     this.recipeService.recipes);
-// }
+
 
   addRecipe(recipe) {
     // const token = this.authService.getToken();
     this.createAuthenticationHeaders()
     return this.http.post('http://localhost:3000/addrecipe', recipe, {headers: this.headers})
+      .map(
+        (response: Response) => {
+          console.log(response)
+          const recipes: Recipe[] = response.json();
+          for (const recipe of recipes) {
+            if (!recipe['ingredients']) {
+              recipe['ingredients'] = [];
+            }
+          }
+          return recipes;
+        }
+      )
+      .subscribe(
+        (recipes: Recipe[]) => {
+          // this.recipeService.addRecipe(recipes[0]);
+        }
+      )
+  }
+
+  updateRecipe(recipe) {
+    // const token = this.authService.getToken();
+    this.createAuthenticationHeaders()
+    return this.http.post('http://localhost:3000/updaterecipe', recipe, {headers: this.headers})
       .map(
         (response: Response) => {
           console.log(response)

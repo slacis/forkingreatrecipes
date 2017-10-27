@@ -2,6 +2,7 @@ import {Ingredient} from '../../shared/ingredient.model';
 import {CookMethod} from "../../shared/cookmethod.model";
 import {CookTime} from "../../shared/cooktime.model";
 export class Recipe {
+  public _id: string;
   public name: string;
   public description: string;
   public imagePath: string;
@@ -12,7 +13,10 @@ export class Recipe {
 
 
 
-  constructor(name: string, desc: string, imagePath: string, user: string, ingredients: Ingredient[], cookmethod: CookMethod[], cooktime: CookTime) {
+  constructor(name: string, desc: string, imagePath: string, user: string, ingredients: Ingredient[], cookmethod: CookMethod[], cooktime: CookTime, _id?) {
+    if(_id) {
+      this._id = _id;
+    }
     this.name = name;
     this.description = desc;
     this.imagePath = imagePath;

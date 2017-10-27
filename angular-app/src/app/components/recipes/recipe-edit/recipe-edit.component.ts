@@ -4,6 +4,7 @@ import {FormArray, FormControl, FormGroup, Validators} from '@angular/forms';
 import {RecipeService} from '../../../services/recipe.service';
 import {Recipe} from '../recipe.model';
 import {DataStorageService} from "../../../services/data-storage.service";
+import {CookTime} from "../../../shared/cooktime.model";
 
 @Component({
   selector: 'app-recipe-edit',
@@ -34,15 +35,24 @@ recipeForm: FormGroup;
 
   private initForm() {
     let recipeName = '';
+    let recipePrepTime = 0;
+    let recipeCookTime = 0;
     let recipeImagePath = '';
     let recipeDescription = '';
     const recipeIngredients = new FormArray([]);
     const recipeMethod = new FormArray([]);
-    const recipecookTime = '';
+    const recipecookTime = new FormArray([]);
 
     if (this.editMode) {
       const recipe = this.recipeService.getRecipe(this.id);
+      console.log(recipe._id)
       recipeName = recipe.name;
+      recipecookTime.push(
+        new FormGroup({
+          'cookTime': new FormControl(recipe.cooktime.cookTime, Validators.required),
+          'prepTime': new FormControl(recipe.cooktime.prepTime, Validators.required),
+        }));
+
       recipeImagePath = recipe.imagePath;
       recipeDescription = recipe.description;
       if (recipe['ingredients']) {
@@ -66,6 +76,7 @@ recipeForm: FormGroup;
           )
         }
       }
+
     }
     this.recipeForm = new FormGroup({
         'name': new FormControl(recipeName, Validators.required),
@@ -73,11 +84,16 @@ recipeForm: FormGroup;
         'description': new FormControl(recipeDescription, Validators.required),
         'ingredients': recipeIngredients,
         'cookmethod': recipeMethod,
-        'cooktime': new FormControl(recipecookTime, Validators.required),
+        'cooktime': recipecookTime
     })
+    var arrayControl = this.recipeForm.get('cooktime').get('controls')
+    console.log(arrayControl)
   }
 
   onSubmit() {
+    const id = this.recipeService.getRecipe(this.id)._id;
+    const cookTime = new CookTime(this.recipeForm.value['cooktime'][0].prepTime,
+      this.recipeForm.value['cooktime'][0].cookTime)
     const newRecipe = new Recipe(
       this.recipeForm.value['name'],
       this.recipeForm.value['description'],
@@ -85,10 +101,12 @@ recipeForm: FormGroup;
       localStorage.getItem('user')['_id'],
       this.recipeForm.value['ingredients'],
       this.recipeForm.value['cookmethod'],
-      this.recipeForm.value['cooktime'])
+      cookTime,
+      id)
     ;
     if (this.editMode) {
       this.recipeService.updateRecipe(this.id, newRecipe)
+      this.dataStorageService.updateRecipe(newRecipe)
     } else {
       this.dataStorageService.addRecipe(newRecipe)
       // this.recipeService.addRecipe(newRecipe);
