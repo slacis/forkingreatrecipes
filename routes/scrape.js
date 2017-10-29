@@ -61,7 +61,7 @@ function runCherio(req, res, options) {
                 //Taste
                 case 1:
                     recipe =
-                        scrapeTaste($, name, description, imagePath, ingredients, cookmethod, req.user._id)
+                        scrapeTaste($, name, description, imagePath, ingredients, cookmethod, req.user._id, cooktime)
                     postRecipe(recipe, res)
                     break;
             }
@@ -75,27 +75,27 @@ function runCherio(req, res, options) {
 
 // Scraper for Taste recipes
 
-function scrapeTaste($, name, description, imagePath, ingredients, cookmethod, user){
-    console.log('in scrape taste')
-    ingredients = [];
-    cookmethod = [];
-    name = $('h1').text()
-    console.log(name)
-    description = $('.single-asset-description-block').children().first().text()
-    imagePath = $('.lead-image-block').children().first().prop('src')
-    // user = user
-    console.log(user)
-    data = $('.ingredient-description').each(function (ing) {
-        ingredient = {name: ($(this).text())}
-        ingredients.push(ingredient)
-    })
-    data = $('.recipe-method-step-content').each(function (index, method) {
-        cookmethod.push({stepNo: index, explanation: ($(this).text()).trim()})
-    })
-    recipe = createRecipe(name, description, imagePath, ingredients, cookmethod, user)
-    return recipe
+// function scrapeTaste($, name, description, imagePath, ingredients, cookmethod, user){
+//     console.log('in scrape taste')
+//     ingredients = [];
+//     cookmethod = [];
+//     name = $('h1').text()
+//     console.log(name)
+//     description = $('.single-asset-description-block').children().first().text()
+//     imagePath = $('.lead-image-block').children().first().prop('src')
+//     // user = user
+//     console.log(user)
+//     data = $('.ingredient-description').each(function (ing) {
+//         ingredient = {name: ($(this).text())}
+//         ingredients.push(ingredient)
+//     })
+//     data = $('.recipe-method-step-content').each(function (index, method) {
+//         cookmethod.push({stepNo: index, explanation: ($(this).text()).trim()})
+//     })
+//     recipe = createRecipe(name, description, imagePath, ingredients, cookmethod, user)
+//     return recipe
 
-}
+// }
 
 // Scraper for Delicious recipes
 
@@ -131,19 +131,23 @@ function scrapeDelicious($, name, description, imagePath, ingredients, cookmetho
 
 // Scraper for Taste recipes
 
-function scrapeTaste($, name, description, imagePath, ingredients, cookmethod, user){
+function scrapeTaste($, name, description, imagePath, ingredients, cookmethod, user, cooktime){
     console.log('in scrape taste')
     ingredients = [];
     cookmethod = [];
     name = $('h1').text()
     console.log(name)
     description = $('.single-asset-description-block').children().first().text()
-    prepTimeString = $('ul.recipe-cooking-infos>li>b').eq(0).text()
+    prepTimeString = $('ul.recipe-cooking-infos>li>b').eq(0).text().split(':')
+    // prepTimeArray = prepTimeString.split('.')
+    prepTime = parseInt(prepTimeString[0]) * 60 + parseInt(prepTimeString[1])
+    console.log(prepTime)
     // convert to string => seperate by '.' => multiply 0 index by 60 and add to first index
-    cookTimeString =  $('ul.recipe-cooking-infos>li>b').eq(1).text()
-    console.log(cookTimeString)
-    prepTime = parseInt(prepTimeString.replace(/[^\d]/g, ''), 10)
-    cookTime = parseInt(cookTimeString.replace(/[^\d]/g, ''), 10)
+    cookTimeString =  $('ul.recipe-cooking-infos>li>b').eq(1).text().split(':')
+    cookTime = parseInt(cookTimeString[0]) * 60 + parseInt(cookTimeString[1])
+    console.log(cookTime)
+    // prepTime = parseInt(prepTimeString.replace(/[^\d]/g, ''), 10)
+    // cookTime = parseInt(cookTimeString.replace(/[^\d]/g, ''), 10)
     cooktime = {'prepTime': prepTime, 'cookTime': cookTime};
     imagePath = $('.lead-image-block').children().first().prop('src')
     // user = user
@@ -155,7 +159,7 @@ function scrapeTaste($, name, description, imagePath, ingredients, cookmethod, u
     data = $('.recipe-method-step-content').each(function (index, method) {
         cookmethod.push({stepNo: index, explanation: ($(this).text()).trim()})
     })
-    recipe = createRecipe(name, description, imagePath, ingredients, cookmethod, user)
+    recipe = createRecipe(name, description, imagePath, ingredients, cookmethod, user, cooktime)
     return recipe
 
 }

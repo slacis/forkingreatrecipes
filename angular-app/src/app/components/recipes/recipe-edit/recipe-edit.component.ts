@@ -35,13 +35,18 @@ recipeForm: FormGroup;
 
   private initForm() {
     let recipeName = '';
-    let recipePrepTime = 0;
-    let recipeCookTime = 0;
     let recipeImagePath = '';
     let recipeDescription = '';
     const recipeIngredients = new FormArray([]);
     const recipeMethod = new FormArray([]);
     const recipecookTime = new FormArray([]);
+    if (!this.editMode){
+      recipecookTime.push(
+        new FormGroup({
+          'cookTime': new FormControl(0, Validators.required),
+          'prepTime': new FormControl(0, Validators.required),
+        }));
+    }
 
     if (this.editMode) {
       const recipe = this.recipeService.getRecipe(this.id);
@@ -60,7 +65,6 @@ recipeForm: FormGroup;
           recipeIngredients.push(
             new FormGroup({
               'name': new FormControl(ingredient.name, Validators.required),
-              // 'amount': new FormControl(ingredient.amount, [Validators.required, Validators.pattern(/^[1-9]+[0-9]*$/)])
             })
         )
         }
@@ -91,7 +95,12 @@ recipeForm: FormGroup;
   }
 
   onSubmit() {
-    const id = this.recipeService.getRecipe(this.id)._id;
+    var id = ''
+    if (this.editMode) {
+      id = this.recipeService.getRecipe(this.id)._id;
+    } else {
+      id = '0';
+    }
     const cookTime = new CookTime(this.recipeForm.value['cooktime'][0].prepTime,
       this.recipeForm.value['cooktime'][0].cookTime)
     const newRecipe = new Recipe(

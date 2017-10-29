@@ -29,6 +29,7 @@ router.post('/addrecipe',  passport.authenticate('jwt', {session: false}),  (req
         user: req.user._id,
         ingredients: req.body.ingredients,
         cookmethod: req.body.cookmethod,
+        cooktime: req.body.cooktime
     });
 
     Recipe.addRecipe(recipe,
@@ -37,6 +38,31 @@ router.post('/addrecipe',  passport.authenticate('jwt', {session: false}),  (req
                 res.json({success: false, msg:'failed to add recipe'})
             } else {
                 res.json({success: true, msg:'successfully added recipe: ' + recipe.name})
+            }
+        })
+});
+
+//  UPDATE RECIPE ROUTE
+router.post('/updaterecipe',  passport.authenticate('jwt', {session: false}),  (req, res, next) => {
+    console.log('entered')
+    console.log(req.body._id)
+    let update = {
+        name: req.body.name,
+        description: req.body.description,
+        imagePath: req.body.imagePath,
+        user: req.user._id,
+        ingredients: req.body.ingredients,
+        cookmethod: req.body.cookmethod,
+        cooktime: req.body.cooktime
+    };
+    Recipe.findOneAndUpdate({_id: req.body._id}, update, { overwrite: true, returnNewDocument: true },
+        (err, recipe) => {
+            if(err){
+                res.json({success: false, msg:'failed to update recipe'})
+                console.log(err)
+            } else {
+                res.json({success: true, msg:'successfully updated recipe: ' + recipe.name})
+                console.log("success")
             }
         })
 });
