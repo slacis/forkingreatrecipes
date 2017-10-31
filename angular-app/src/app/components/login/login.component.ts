@@ -23,7 +23,7 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
   }
-
+  // Test login against database and store token if successful
   onSubmit(){
     this.user.username = this.loginForm.value.username;
     this.user.password = this.loginForm.value.password;
@@ -36,7 +36,7 @@ export class LoginComponent implements OnInit {
               'Logged in successfuly',
               { cssClass: 'alert-success',
                 timeout: 5000 });
-            this.router.navigate(['dashboard'])
+            this.router.navigate(['profile'])
           } else {
             this.flashMessage.show(
               data.msg,

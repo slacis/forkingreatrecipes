@@ -7,6 +7,7 @@ import { Recipe } from '../../recipe.model';
   styleUrls: ['./recipe-item.component.css']
 })
 export class RecipeItemComponent implements OnInit {
+  // Pick-up recipe and index being passed in
 @Input() recipe: Recipe;
 @Input() index: number;
 

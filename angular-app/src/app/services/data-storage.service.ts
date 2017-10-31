@@ -1,4 +1,4 @@
-import {Http} from '@angular/http';
+import {Http, RequestOptions} from '@angular/http';
 import {Injectable} from '@angular/core';
 import {RecipeService} from './recipe.service';
 import {Response} from '@angular/http';
@@ -18,19 +18,17 @@ export class DataStorageService {
   createAuthenticationHeaders() {
     this.headers = new Headers();
     this.authService.loadToken();
-    this.headers.append('Authorization', this.authService.authToken)
+    this.headers.append('Authorization', this.authService.authToken);
     this.headers.append('Content-Type','application/json');
     this.headers.append('Access-Control-Allow-Origin', '*');
   }
 
 
   addRecipe(recipe) {
-    // const token = this.authService.getToken();
     this.createAuthenticationHeaders()
-    return this.http.post('http://localhost:3000/addrecipe', recipe, {headers: this.headers})
+    return this.http.post('http://localhost:3000/recipe', recipe, {headers: this.headers})
       .map(
         (response: Response) => {
-          console.log(response)
           const recipes: Recipe[] = response.json();
           for (const recipe of recipes) {
             if (!recipe['ingredients']) {
@@ -42,18 +40,15 @@ export class DataStorageService {
       )
       .subscribe(
         (recipes: Recipe[]) => {
-          // this.recipeService.addRecipe(recipes[0]);
         }
       )
   }
 
   updateRecipe(recipe) {
-    // const token = this.authService.getToken();
-    this.createAuthenticationHeaders()
-    return this.http.post('http://localhost:3000/updaterecipe', recipe, {headers: this.headers})
+    this.createAuthenticationHeaders();
+    return this.http.put('http://localhost:3000/recipe', recipe, {headers: this.headers})
       .map(
         (response: Response) => {
-          console.log(response)
           const recipes: Recipe[] = response.json();
           for (const recipe of recipes) {
             if (!recipe['ingredients']) {
@@ -65,22 +60,39 @@ export class DataStorageService {
       )
       .subscribe(
         (recipes: Recipe[]) => {
-          // this.recipeService.addRecipe(recipes[0]);
         }
       )
   }
 
-  getProfile(){
-
+  deleteRecipe(recipe) {
+    this.createAuthenticationHeaders();
+    let options = new RequestOptions({
+      headers: this.headers,
+      body: recipe
+    });
+    return this.http.delete('http://localhost:3000/recipe', options)
+      .map(
+        (response: Response) => {
+          const recipes: Recipe[] = response.json();
+          for (const recipe of recipes) {
+            if (!recipe['ingredients']) {
+              recipe['ingredients'] = [];
+            }
+          }
+          return recipes;
+        }
+      )
+      .subscribe(
+        (recipes: Recipe[]) => {
+        }
+      )
   }
 
   getRecipes() {
-    // const token = this.authService.getToken();
     this.createAuthenticationHeaders();
-    return this.http.get('http://localhost:3000/recipes',  {headers: this.headers})
+    return this.http.get('http://localhost:3000/recipe',  {headers: this.headers})
       .map(
         (response: Response) => {
-          console.log(response)
           const recipes: Recipe[] = response.json();
           for (const recipe of recipes) {
             if (!recipe['ingredients']) {
@@ -100,17 +112,12 @@ export class DataStorageService {
   scrapeRecipe(url) {
     // const token = this.authService.getToken();
     let scrapeURL = JSON.stringify({url: url})
-    console.log('data' + scrapeURL)
-    // let headers = new Headers({
-    //   'Content-Type': 'application/json'
-    // });
     this.createAuthenticationHeaders()
 
 
     return this.http.post('http://localhost:3000/scrapeurl', scrapeURL, {headers: this.headers})
       .map(
         (response: Response) => {
-          console.log(response)
           const recipes: Recipe[] = response.json();
           for (const recipe of recipes) {
             if (!recipe['ingredients']) {

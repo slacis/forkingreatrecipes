@@ -7,12 +7,14 @@ export class Recipe {
   public description: string;
   public imagePath: string;
   public user: string;
+  //Refer to models for structure of these items
   public ingredients: Ingredient[];
   public cookmethod: CookMethod[];
   public cooktime: CookTime;
 
 
-
+  // id is optional as we will need to read in the id when downloading from the database
+  // but not for when we create a new item locally
   constructor(name: string, desc: string, imagePath: string, user: string, ingredients: Ingredient[], cookmethod: CookMethod[], cooktime: CookTime, _id?) {
     if(_id) {
       this._id = _id;

@@ -1,7 +1,9 @@
 <div *ngIf="user">
-  <h2 class="page-header">{{user.name}}</h2>
+  <h2 class="page-header">Welcome, {{user.name}}!</h2>
+  <h2>Your details:</h2>
+  <hr>
   <div class="ul list-group">
-    <li class="list-group-item">Username: {{user.username}}</li>
-    <li class="list-group-item">Email: {{user.email}}</li>
+    <li class="list-group-item"><strong>Username:</strong> {{user.username}}</li>
+    <li class="list-group-item"><strong>Email:</strong> {{user.email}}</li>
   </div>
 </div>

@@ -19,7 +19,7 @@ export class NavbarComponent implements OnInit {
 
   ngOnInit() {
   }
-
+  // Logs user out
   onLogoutClick() {
     this.authService.logout();
     this.flashMessage.show(
@@ -29,10 +29,6 @@ export class NavbarComponent implements OnInit {
     );
     this.router.navigate(['/login']);
     return false;
-  }
-
-  onFetchData() {
-    this.dataStorageService.getRecipes();
   }
 
 }

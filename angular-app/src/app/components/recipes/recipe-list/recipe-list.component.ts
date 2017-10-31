@@ -6,98 +6,102 @@ import {Subscription} from "rxjs/Subscription";
 import {FormArray, FormControl, FormGroup, Validators} from "@angular/forms";
 
 @Component({
-    selector: 'app-recipe-list',
-    templateUrl: './recipe-list.component.html',
-    styleUrls: ['./recipe-list.component.css']
+  selector: 'app-recipe-list',
+  templateUrl: './recipe-list.component.html',
+  styleUrls: ['./recipe-list.component.css']
 })
 export class RecipeListComponent implements OnInit, OnDestroy {
-    subscription: Subscription;
-    recipes: Recipe[];
-    searchTerm = '';
-    searchIngredients = [];
-    // OPTIONS: recipe or ingredient
-    searchMethod = "recipe";
-    recipeForm: FormGroup;
-    totalCook = 120
-    totalCookTime = 500
-    //initializing page number p to one
-    p: number = 1;
-    private initForm() {
-        const recipeIngredients = new FormArray([]);
-        recipeIngredients.push(new FormGroup({
-            'name': new FormControl(null, Validators.required)
-        }))
-        this.recipeForm = new FormGroup({
-            'ingredients': recipeIngredients
-        })
+  subscription: Subscription;
+  recipes: Recipe[];
+  searchTerm = '';
+  searchIngredients = [];
+  // OPTIONS: recipe or ingredient
+  searchMethod = "recipe";
+  recipeForm: FormGroup;
+  totalCook = 500;
+  totalCookTime = 500;
+  //initializing page number p to one
+  p: number = 1;
 
-    }
+  //Initialize the form
+  private initForm() {
+    const recipeIngredients = new FormArray([]);
+    recipeIngredients.push(new FormGroup({
+      'name': new FormControl(null, Validators.required)
+    }));
+    this.recipeForm = new FormGroup({
+      'ingredients': recipeIngredients
+    })
 
-    constructor(private recipeService: RecipeService,
-                private router: Router,
-                private route: ActivatedRoute) {}
+  }
 
-    ngOnInit() {
-        this.recipes = this.recipeService.recipes;
-        this.initForm();
-        this.subscription = this.recipeService.recipesChanged
-            .subscribe(
-                (recipes: Recipe[]) => {
-                    this.recipes = recipes;
-                    console.log(recipes)
-                }
-            )
-    }
-    onNewRecipe() {
-        this.router.navigate(['new'], {relativeTo: this.route})
-    }
+  constructor(private recipeService: RecipeService,
+              private router: Router,
+              private route: ActivatedRoute) {}
 
-    onRandomRecipe() {
-        let randomIndex = String(Math.floor(Math.random() * this.recipes.length))
-        this.router.navigate([randomIndex], {relativeTo: this.route})
-    }
-
-    ngOnDestroy () {
-        this.subscription.unsubscribe()
-    }
-
-    onAddIngredient() {
-        (<FormArray>this.recipeForm.get('ingredients')).push(
-            new FormGroup({
-                'name': new FormControl(null, Validators.required)
-                // 'amount': new FormControl(null, [Validators.required, Validators.pattern(/^[1-9]+[0-9]*$/)])
-            })
-        )
-    }
-
-    onDeleteIngredient(index: number) {
-        (<FormArray>this.recipeForm.get('ingredients')).removeAt(index);
-    }
-
-    onSubmit() {
-      console.log(this.searchMethod)
-      console.log(this.searchMethod === 'recipe')
-        this.totalCookTime = this.totalCook
-        if (this.searchMethod === 'ingredient'){
-            console.log("in submit")
-            let tempArray = []
-            // Blank string for 0 index will result in ingredient search
-            // tempArray.push('')
-            this.recipeForm.value['ingredients'].forEach((ingredient) =>
-            {
-                tempArray.push(ingredient.name)
-            })
-            this.searchIngredients = tempArray.slice()
-            console.log(this.searchIngredients)
-        } else if (this.searchMethod === 'recipe') {
-          // 0 Index having a value will result in recipe name search
-            this.searchIngredients[0] = this.searchTerm
-            console.log(this.searchIngredients[0])
+  ngOnInit() {
+    this.recipes = this.recipeService.recipes;
+    this.initForm();
+    this.subscription = this.recipeService.recipesChanged
+      .subscribe(
+        (recipes: Recipe[]) => {
+          this.recipes = recipes;
         }
-    }
+      )
+  }
 
-    onClear(){
-      this.searchIngredients = []
+  // Navigate to new recipe page
+  onNewRecipe() {
+    this.router.navigate(['new'], {relativeTo: this.route})
+  }
+
+  // Display random recipe from list to user
+  onRandomRecipe() {
+    let randomIndex = String(Math.floor(Math.random() * this.recipes.length))
+    this.router.navigate([randomIndex], {relativeTo: this.route})
+  }
+
+  // Destroy subscription
+  ngOnDestroy () {
+    this.subscription.unsubscribe()
+  }
+
+  // Add new ingredient to ingredient search
+  onAddIngredient() {
+    (<FormArray>this.recipeForm.get('ingredients')).push(
+      new FormGroup({
+        'name': new FormControl(null, Validators.required)
+      })
+    )
+  }
+
+  // Delete ingredient from ingredient search
+  onDeleteIngredient(index: number) {
+    (<FormArray>this.recipeForm.get('ingredients')).removeAt(index);
+  }
+
+  // Controls what happens when search is submitted
+  onSubmit() {
+    this.totalCookTime = this.totalCook
+    if (this.searchMethod === 'ingredient'){
+      let tempArray = []
+      // Blank string for 0 index will result in ingredient search
+      this.recipeForm.value['ingredients'].forEach((ingredient) =>
+      {
+        tempArray.push(ingredient.name)
+      })
+      this.searchIngredients = tempArray.slice()
+    } else if (this.searchMethod === 'recipe') {
+      // 0 Index having a value will result in recipe name search
+      this.searchIngredients[0] = this.searchTerm
     }
+  }
+
+  // Clears search and shows all recipes for user
+  onClear(){
+    this.initForm();
+    this.searchTerm = '';
+    this.searchIngredients = []
+  }
 
 }

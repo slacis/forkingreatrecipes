@@ -32,7 +32,7 @@ recipeForm: FormGroup;
         }
       );
   }
-
+  //Initialize form for editing
   private initForm() {
     let recipeName = '';
     let recipeImagePath = '';
@@ -40,6 +40,7 @@ recipeForm: FormGroup;
     const recipeIngredients = new FormArray([]);
     const recipeMethod = new FormArray([]);
     const recipecookTime = new FormArray([]);
+    // If we're not in edit mode, populate the cooktimes to 0
     if (!this.editMode){
       recipecookTime.push(
         new FormGroup({
@@ -47,10 +48,9 @@ recipeForm: FormGroup;
           'prepTime': new FormControl(0, Validators.required),
         }));
     }
-
+    //If we're in edit mode, read in the values of the recipe into initialized form
     if (this.editMode) {
       const recipe = this.recipeService.getRecipe(this.id);
-      console.log(recipe._id)
       recipeName = recipe.name;
       recipecookTime.push(
         new FormGroup({
@@ -91,10 +91,11 @@ recipeForm: FormGroup;
         'cooktime': recipecookTime
     })
     var arrayControl = this.recipeForm.get('cooktime').get('controls')
-    console.log(arrayControl)
   }
 
+  // Controls how form is submitted
   onSubmit() {
+    //If this is a new recipe, no id is generated as this is done by mongo
     var id = ''
     if (this.editMode) {
       id = this.recipeService.getRecipe(this.id)._id;
@@ -123,15 +124,16 @@ recipeForm: FormGroup;
     this.onCancel();
   }
 
+  // Adds a new form control into the ingredients form group
   onAddIngredient() {
     (<FormArray>this.recipeForm.get('ingredients')).push(
       new FormGroup({
         'name': new FormControl(null, Validators.required)
-        // 'amount': new FormControl(null, [Validators.required, Validators.pattern(/^[1-9]+[0-9]*$/)])
       })
     )
   }
 
+  // Adds new form control into cook method form group
   onAddStep() {
     (<FormArray>this.recipeForm.get('cookmethod')).push(
       new FormGroup({
@@ -142,20 +144,23 @@ recipeForm: FormGroup;
     )
   }
 
+  // Cancels editing the recipe
   onCancel() {
   this.router.navigate(['../'], {relativeTo: this.route})
   }
 
+  // Deletes form control from ingredients form array
   onDeleteIngredient(index: number) {
     (<FormArray>this.recipeForm.get('ingredients')).removeAt(index);
   }
-
+  // Deletes form control from cook method form array
   onDeleteMethod(index: number) {
     (<FormArray>this.recipeForm.get('cookmethod')).removeAt(index);
   }
 
+  // Scrapes a recipe from the given URL
+  // Currently supports taste.com.au and delicious.com.au
   onScrape() {
-    console.log(this.scrapeURL)
     this.dataStorageService.scrapeRecipe(this.scrapeURL);
   }
 }

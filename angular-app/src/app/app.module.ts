@@ -2,7 +2,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
-import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { HomeComponent } from './components/home/home.component';
 import { LoginComponent } from './components/login/login.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
@@ -37,14 +36,12 @@ const appRoutes: Routes = [
     {path: ':id/edit', component: RecipeEditComponent, canActivate: [AuthGuard] }
   ]},
   {path:'login', component: LoginComponent},
-  {path:'dashboard', component: DashboardComponent, canActivate:[AuthGuard]},
   {path:'profile', component: ProfileComponent, canActivate:[AuthGuard]},
 ]
 
 @NgModule({
   declarations: [
     AppComponent,
-    DashboardComponent,
     HomeComponent,
     LoginComponent,
     NavbarComponent,

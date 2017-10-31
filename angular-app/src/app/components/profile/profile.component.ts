@@ -14,6 +14,7 @@ export class ProfileComponent implements OnInit {
               private router: Router
   ) { }
 
+  // Load user details
   ngOnInit() {
     this.authService.getProfile()
       .subscribe(

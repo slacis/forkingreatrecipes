@@ -1,0 +1,9 @@
+.page-header {
+  padding: 1em;
+  background: #cdeb8e;
+  border-radius: 10px;
+  background: -moz-linear-gradient(top, #cdeb8e 0%, #a5c956 100%);
+  background: -webkit-linear-gradient(top, #cdeb8e 0%, #a5c956 100%);
+  background: linear-gradient(to bottom, #cdeb8e 0%, #a5c956 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#cdeb8e', endColorstr='#a5c956', GradientType=0);
+}

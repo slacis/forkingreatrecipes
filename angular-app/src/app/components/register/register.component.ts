@@ -36,13 +36,13 @@ export class RegisterComponent implements OnInit {
     }
 
     this.signupForm.reset();
-    //REGISTER USER
+    // REGISTER USER
     this.authService.registerUser(this.user)
       .subscribe(
         data => {
           if(data.success) {
             this.flashMessagesService.show(
-              'You have register successfuly!',
+              'You have registered successfully!',
               {cssClass: 'alert-success', timeout: 3000}
             );
             this.router.navigate(['/login']);
@@ -60,8 +60,4 @@ export class RegisterComponent implements OnInit {
 
 }
 
-// (data: any[]) => {
-//   this.servers = data;
-// },
-//   (error) => console.log(error)
-// );
+
