@@ -9,7 +9,7 @@ const   express = require('express'),
     jwt = require('jsonwebtoken');
 
 // GET ALL RECIPES ROUTE
-router.get('/recipes',  passport.authenticate('jwt', {session: false}), (req, res) => {
+router.get('/recipe',  passport.authenticate('jwt', {session: false}), (req, res) => {
     //get all recipes
     Recipe.find({'user': req.user._id}, (err, userRecipes) => {
         if(err){
@@ -21,7 +21,7 @@ router.get('/recipes',  passport.authenticate('jwt', {session: false}), (req, re
 });
 
 //  ADD RECIPE ROUTE
-router.post('/addrecipe',  passport.authenticate('jwt', {session: false}),  (req, res, next) => {
+router.post('/recipe',  passport.authenticate('jwt', {session: false}),  (req, res, next) => {
     let recipe = new Recipe({
         name: req.body.name,
         description: req.body.description,
@@ -43,7 +43,7 @@ router.post('/addrecipe',  passport.authenticate('jwt', {session: false}),  (req
 });
 
 //  UPDATE RECIPE ROUTE
-router.post('/updaterecipe',  passport.authenticate('jwt', {session: false}),  (req, res, next) => {
+router.put('/recipe',  passport.authenticate('jwt', {session: false}),  (req, res, next) => {
     console.log('entered')
     console.log(req.body._id)
     let update = {
@@ -67,21 +67,17 @@ router.post('/updaterecipe',  passport.authenticate('jwt', {session: false}),  (
         })
 });
 
-//  SEARCH ROUTE
-router.post('/ingredientsearch', (req, res, next) => {
-    let ingredients = [];
-    ingredients = req.body.ingredients
-    // ingredients.forEach((ingredient) => {
-    //     ingredient.name = new RegExp(ingredient.name)
-    // })
-    // ingredients.push(req.body.ingredients[1]);
-    console.log(ingredients);
-    Recipe.matchIngredientsToRecipe(ingredients,
+//  DELETE RECIPE ROUTE
+router.delete('/recipe',  passport.authenticate('jwt', {session: false}),  (req, res, next) => {
+    console.log(req.body._id)
+    Recipe.findOneAndRemove({_id: req.body._id},
         (err, recipe) => {
             if(err){
-                res.json({success: false, msg:'failed: ' + err.message})
+                res.json({success: false, msg:'failed to delete recipe'})
+                console.log(err)
             } else {
-                res.json({success: true, msg: recipe})
+                res.json({success: true, msg:'successfully deleted recipe: ' + recipe.name})
+                console.log("success")
             }
         })
 });

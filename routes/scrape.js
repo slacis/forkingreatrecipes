@@ -72,31 +72,6 @@ function runCherio(req, res, options) {
         });
 }
 
-
-// Scraper for Taste recipes
-
-// function scrapeTaste($, name, description, imagePath, ingredients, cookmethod, user){
-//     console.log('in scrape taste')
-//     ingredients = [];
-//     cookmethod = [];
-//     name = $('h1').text()
-//     console.log(name)
-//     description = $('.single-asset-description-block').children().first().text()
-//     imagePath = $('.lead-image-block').children().first().prop('src')
-//     // user = user
-//     console.log(user)
-//     data = $('.ingredient-description').each(function (ing) {
-//         ingredient = {name: ($(this).text())}
-//         ingredients.push(ingredient)
-//     })
-//     data = $('.recipe-method-step-content').each(function (index, method) {
-//         cookmethod.push({stepNo: index, explanation: ($(this).text()).trim()})
-//     })
-//     recipe = createRecipe(name, description, imagePath, ingredients, cookmethod, user)
-//     return recipe
-
-// }
-
 // Scraper for Delicious recipes
 
 function scrapeDelicious($, name, description, imagePath, ingredients, cookmethod, user, cooktime){
