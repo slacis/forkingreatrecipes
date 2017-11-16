@@ -1,9 +1,9 @@
 const   express = require('express'),
-        router = express.Router(),
-        passport = require('passport'),
-        jwt = require('jsonwebtoken'),
-        User = require('../models/user'),
-        config = require('../config/database');
+    router = express.Router(),
+    passport = require('passport'),
+    jwt = require('jsonwebtoken'),
+    User = require('../models/user'),
+    config = require('../config/database');
 
 //  REGISTER ROUTE
 router.post('/register', (req, res, next) => {
@@ -16,20 +16,22 @@ router.post('/register', (req, res, next) => {
 
     User.addUser(newUser,
         (err, user) => {
-        if(err){
-            res.json({success: false, msg:'failed to register user'})
-        } else {
-            res.json({success: true, msg:'successfuly registered user: ' + user.username})
-        }
-    })
+            if(err){
+                res.json({success: false, msg:'failed to register user'})
+            } else {
+                res.json({success: true, msg:'successfuly registered user: ' + user.username})
+            }
+        })
 });
 
 //  AUTHENTICATE ROUTE
-router.post('/authenticate', (req, res) => {
+router.post('/authenticate', (req, res, next) => {
     const   username = req.body.username,
-            password = req.body.password;
+        password = req.body.password;
     User.getUserByUsername(username, (err,user) => {
-        if(err) throw err;
+        if(err) {
+            return next(err);
+        }
         if(!user) {
             return res.json({success:false, msg: 'User not found'})
         }

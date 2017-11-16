@@ -3,5 +3,13 @@ input.ng-invalid.ng-touched {
 }
 
 .search-padding {
-padding-top: 1em;
+  padding-top: 1em;
+}
+
+.search-padding>.form-control {
+  margin-bottom: 1em;
+}
+
+.button-margin {
+  margin-top: 1em;
 }

@@ -6,6 +6,7 @@ import {Recipe} from "../components/recipes/recipe.model";
 import 'rxjs/Rx';
 import {AuthService} from "./auth.service";
 import {Headers} from '@angular/http';
+import {Observable} from "rxjs/Observable";
 
 @Injectable()
 export class DataStorageService {
@@ -13,7 +14,8 @@ export class DataStorageService {
               private authService: AuthService) {
   }
   headers
-
+  // server =  'http://ec2-34-224-88-234.compute-1.amazonaws.com:8080'
+  server = 'http://localhost:3000';
   // Function to create headers, add token, to be used in HTTP requests
   createAuthenticationHeaders() {
     this.headers = new Headers();
@@ -21,12 +23,21 @@ export class DataStorageService {
     this.headers.append('Authorization', this.authService.authToken);
     this.headers.append('Content-Type','application/json');
     this.headers.append('Access-Control-Allow-Origin', '*');
+
+  }
+
+
+  // Handle errors
+  private errorHandler(error: Response) {
+    // console.error(error);
+    // console.log(error)
+    return Observable.throw(error || 'Error occurred')
   }
 
 
   addRecipe(recipe) {
     this.createAuthenticationHeaders()
-    return this.http.post('http://localhost:3000/recipe', recipe, {headers: this.headers})
+    return this.http.post(this.server + '/recipe', recipe, {headers: this.headers})
       .map(
         (response: Response) => {
           const recipes: Recipe[] = response.json();
@@ -37,7 +48,7 @@ export class DataStorageService {
           }
           return recipes;
         }
-      )
+      ).catch(this.errorHandler)
       .subscribe(
         (recipes: Recipe[]) => {
         }
@@ -46,7 +57,7 @@ export class DataStorageService {
 
   updateRecipe(recipe) {
     this.createAuthenticationHeaders();
-    return this.http.put('http://localhost:3000/recipe', recipe, {headers: this.headers})
+    return this.http.put(this.server + '/recipe', recipe, {headers: this.headers})
       .map(
         (response: Response) => {
           const recipes: Recipe[] = response.json();
@@ -57,7 +68,7 @@ export class DataStorageService {
           }
           return recipes;
         }
-      )
+      ).catch(this.errorHandler)
       .subscribe(
         (recipes: Recipe[]) => {
         }
@@ -70,7 +81,7 @@ export class DataStorageService {
       headers: this.headers,
       body: recipe
     });
-    return this.http.delete('http://localhost:3000/recipe', options)
+    return this.http.delete(this.server + '/recipe', options)
       .map(
         (response: Response) => {
           const recipes: Recipe[] = response.json();
@@ -81,7 +92,7 @@ export class DataStorageService {
           }
           return recipes;
         }
-      )
+      ).catch(this.errorHandler)
       .subscribe(
         (recipes: Recipe[]) => {
         }
@@ -90,7 +101,7 @@ export class DataStorageService {
 
   getRecipes() {
     this.createAuthenticationHeaders();
-    return this.http.get('http://localhost:3000/recipe',  {headers: this.headers})
+    return this.http.get(this.server + '/recipe',  {headers: this.headers})
       .map(
         (response: Response) => {
           const recipes: Recipe[] = response.json();
@@ -101,7 +112,7 @@ export class DataStorageService {
           }
           return recipes;
         }
-      )
+      ).catch(this.errorHandler)
       .subscribe(
         (recipes: Recipe[]) => {
           this.recipeService.setRecipes(recipes);
@@ -115,7 +126,7 @@ export class DataStorageService {
     this.createAuthenticationHeaders()
 
 
-    return this.http.post('http://localhost:3000/scrapeurl', scrapeURL, {headers: this.headers})
+    return this.http.post(this.server + '/scrapeurl', scrapeURL, {headers: this.headers})
       .map(
         (response: Response) => {
           const recipes: Recipe[] = response.json();
@@ -126,7 +137,7 @@ export class DataStorageService {
           }
           return recipes;
         }
-      )
+      ).catch(this.errorHandler)
       .subscribe(
         (recipes: Recipe[]) => {
           this.recipeService.addRecipe(recipes[0]);

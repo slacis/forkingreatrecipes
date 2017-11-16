@@ -1,10 +1,10 @@
 const   express = require('express'),
-        path = require('path'),
-        bodyParser = require('body-parser'),
-        cors = require('cors'),
-        passport = require('passport'),
-        mongoose = require('mongoose'),
-        config = require('./config/database');
+    path = require('path'),
+    bodyParser = require('body-parser'),
+    cors = require('cors'),
+    passport = require('passport'),
+    mongoose = require('mongoose'),
+    config = require('./config/database');
 
 const app = express();
 //  ROUTE FILES
@@ -50,6 +50,18 @@ app.use(express.static("public"));
 app.use('/users', users);
 app.use('', scrape);
 app.use('', recipe);
+
+// ERROR MIDDLEWARE
+
+app.use((err, req, res, next) => {
+    console.log(err);
+    if (res.headersSent) {
+        return next(err)
+    }
+    // Make this status more appropriate in regards to error
+    res.status(500);
+    res.json(err.message)
+});
 
 //  INDEX ROUTE
 app.get('/', (req, res) => {

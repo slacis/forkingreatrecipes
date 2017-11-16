@@ -7,14 +7,16 @@ import { tokenNotExpired } from 'angular2-jwt'
 export class AuthService {
   authToken: any;
   user: any;
-
+  // server = 'http://ec2-34-224-88-234.compute-1.amazonaws.com:8080';
+  server = 'http://localhost:3000'
   constructor(private http: Http) { }
+
 
   registerUser(user){
     let headers = new Headers();
     headers.append('Content-Type','application/json');
     headers.append('Access-Control-Allow-Origin', '*');
-    return this.http.post('http://localhost:3000/users/register', user, {headers: headers})
+    return this.http.post(this.server + '/users/register', user, {headers: headers})
       .map(res => res.json());
   }
 
@@ -22,7 +24,7 @@ export class AuthService {
     let headers = new Headers();
     headers.append('Content-Type','application/json');
     headers.append('Access-Control-Allow-Origin', '*');
-    return this.http.post('http://localhost:3000/users/authenticate', user, {headers: headers})
+    return this.http.post(this.server + '/users/authenticate', user, {headers: headers})
       .map(res => res.json());
   }
 
@@ -32,7 +34,7 @@ export class AuthService {
     headers.append('Authorization', this.authToken)
     headers.append('Content-Type','application/json');
     headers.append('Access-Control-Allow-Origin', '*');
-    return this.http.get('http://localhost:3000/users/profile', {headers: headers})
+    return this.http.get(this.server + '/users/profile', {headers: headers})
       .map(res => res.json());
   }
 
@@ -57,5 +59,7 @@ export class AuthService {
   loggedIn(){
     return tokenNotExpired('id_token');
   }
+
+
 
 }

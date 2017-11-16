@@ -30,5 +30,8 @@ export class NavbarComponent implements OnInit {
     this.router.navigate(['/login']);
     return false;
   }
+  isLoggedIn(){
+    return this.authService.loggedIn()
+  }
 
 }

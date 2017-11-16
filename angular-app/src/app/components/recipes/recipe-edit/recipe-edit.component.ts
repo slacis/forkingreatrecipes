@@ -12,13 +12,13 @@ import {CookTime} from "../../../shared/cooktime.model";
   styleUrls: ['./recipe-edit.component.css']
 })
 export class RecipeEditComponent implements OnInit {
-id: number;
-editMode = false;
-recipeForm: FormGroup;
+  id: number;
+  editMode = false;
+  recipeForm: FormGroup;
   constructor(private route: ActivatedRoute,
-  private recipeService: RecipeService,
-  private router: Router,
-  private dataStorageService: DataStorageService) { }
+              private recipeService: RecipeService,
+              private router: Router,
+              private dataStorageService: DataStorageService) { }
   inputMethod = "scrape";
   scrapeURL
 
@@ -66,7 +66,7 @@ recipeForm: FormGroup;
             new FormGroup({
               'name': new FormControl(ingredient.name, Validators.required),
             })
-        )
+          )
         }
       }
       if (recipe['cookmethod']) {
@@ -83,12 +83,12 @@ recipeForm: FormGroup;
 
     }
     this.recipeForm = new FormGroup({
-        'name': new FormControl(recipeName, Validators.required),
-        'imagePath': new FormControl(recipeImagePath, Validators.required),
-        'description': new FormControl(recipeDescription, Validators.required),
-        'ingredients': recipeIngredients,
-        'cookmethod': recipeMethod,
-        'cooktime': recipecookTime
+      'name': new FormControl(recipeName, Validators.required),
+      'imagePath': new FormControl(recipeImagePath, Validators.required),
+      'description': new FormControl(recipeDescription, Validators.required),
+      'ingredients': recipeIngredients,
+      'cookmethod': recipeMethod,
+      'cooktime': recipecookTime
     })
     var arrayControl = this.recipeForm.get('cooktime').get('controls')
   }
@@ -146,7 +146,7 @@ recipeForm: FormGroup;
 
   // Cancels editing the recipe
   onCancel() {
-  this.router.navigate(['../'], {relativeTo: this.route})
+    this.router.navigate(['../'], {relativeTo: this.route})
   }
 
   // Deletes form control from ingredients form array

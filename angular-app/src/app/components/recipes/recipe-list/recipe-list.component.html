@@ -41,40 +41,42 @@
 
     </div>
     <form [formGroup]="recipeForm" (ngSubmit)="onSubmit()">
-    <div *ngIf="searchMethod==='ingredient'" class="row">
-      <div class="col-xs-12 form-group" formArrayName="ingredients">
-        <label class="search-padding">Ingredients</label>
-        <div class="row">
-          <div class="col-xs-3">
-            <button type="button" class="btn btn-success" (click)="onAddIngredient()">Add Ingredient</button>
+      <div *ngIf="searchMethod==='ingredient'" class="row">
+        <div class="col-xs-12 form-group" formArrayName="ingredients">
+          <label class="search-padding">Ingredients</label>
+          <div class="row">
+            <div class="col-xs-3">
+              <button type="button" class="btn btn-success" (click)="onAddIngredient()">Add Ingredient</button>
+            </div>
           </div>
-        </div>
-        <div class="row"
-             *ngFor="let ingredientCtrl of recipeForm.get('ingredients').controls;
+          <div class="row"
+               *ngFor="let ingredientCtrl of recipeForm.get('ingredients').controls;
                  let i = index"
-             [formGroupName]="i"
-             style="margin-top:10px;"
-        >
-          <div class="col-xs-8">
-            <input type="text"
-                   class="form-control"
-                   formControlName="name"
-            >
-          </div>
-          <div class="col-xs-2">
-            <button type="button"
-                    class="btn btn-danger"
-                    (click)="onDeleteIngredient(i)"
-            >x</button>
-          </div>
+               [formGroupName]="i"
+               style="margin-top:10px;"
+          >
+            <div class="col-xs-8">
+              <input type="text"
+                     class="form-control"
+                     formControlName="name"
+              >
+            </div>
+            <div class="col-xs-2">
+              <button type="button"
+                      class="btn btn-danger"
+                      (click)="onDeleteIngredient(i)"
+              >x</button>
+            </div>
 
 
+          </div>
+          <div class="button-margin">
+            <button class="btn btn-outline-success" type="submit">Search</button>
+            <button class="btn btn-outline-success" type="button" (click)="onClear()">Clear</button>
+          </div>
         </div>
-          <button class="btn btn-outline-success" type="submit">Search</button>
-          <button class="btn btn-outline-success" type="button" (click)="onClear()">Clear</button>
       </div>
-    </div>
-  </form>
+    </form>
     <hr>
 
     <app-recipe-item  *ngFor="let recipeEl of recipes | filter:searchIngredients:searchMethod:totalCookTime | paginate: { itemsPerPage: 5, currentPage: p }; let i = index"

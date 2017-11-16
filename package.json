@@ -15,6 +15,7 @@
     "cheerio": "^1.0.0-rc.2",
     "cors": "^2.8.4",
     "express": "^4.15.4",
+    "express-exceptions": "0.0.7",
     "jsonwebtoken": "^7.4.2",
     "mongoose": "^4.11.6",
     "passport": "^0.4.0",

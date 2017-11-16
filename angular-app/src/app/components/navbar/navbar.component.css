@@ -2,27 +2,39 @@
   font-family: 'Passion One', cursive;
   font-size: 1.2em;
   text-transform: uppercase;
-  /*width: 59.5%;*/
-  /*margin: 1em auto;*/
+
 }
 
 .navbar-brand {
   padding: 0px;
 }
+
 .navbar-brand>img {
   height: 100%;
   padding: 15px;
   width: auto;
 }
 
-
 .logo {
   font-size:3.5em;
   display: inline-block;
   font-family: 'Dancing Script', cursive;
+}
 
+@media screen and (max-width: 420px){
+  .logo {
+    font-size : 2.2em;
+  }
+  #banner {
+    border-bottom: 1px solid lightblue;
+    margin-bottom: 10px;
+  }
 }
 
 .search-padding{
   padding-top: 1em;
 }
+
+
+
+

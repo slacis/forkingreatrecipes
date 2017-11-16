@@ -1,3 +1,32 @@
 a {
     background-color: #e3f2fd;
+    min-height: 150px;
+    max-height: 150px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+p {
+  text-align: left;
+}
+
+img {
+  max-height: 100px;
+  border-radius: 15px;
+}
+
+
+.col-md-6,
+.col-xs-6 {
+  padding: 0 10px 0 0;
+}
+
+.col-md-6 img {
+  margin-top: 1em;
+}
+
+@media screen and (max-width: 768px) {
+  .col-xs-6 img {
+    margin-top: 1.8em;
+  }
 }
