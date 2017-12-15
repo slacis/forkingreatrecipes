@@ -25,8 +25,4 @@ img {
   margin-top: 1em;
 }
 
-@media screen and (max-width: 768px) {
-  .col-xs-6 img {
-    margin-top: 1.8em;
-  }
-}
+

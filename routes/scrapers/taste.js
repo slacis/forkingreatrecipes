@@ -1,8 +1,12 @@
 // Scraper for Taste recipes
 const scrapeHelper = require('./scrapeHelper');
 
-module.exports.scrapeTaste = function($, name, description, imagePath, ingredients, cookmethod, user, cooktime){
+module.exports.scrapeTaste = function($, name, description, imagePath, ingredients, cookmethod, user, cooktime, next){
     console.log('in scrape taste');
+    // Check if recipe page
+    if($('.recipe-page').length != 1){
+        return next(Error('not a valid recipe uri'))
+    } else {
     ingredients = [];
     cookmethod = [];
     name = $('h1').text();
@@ -27,5 +31,5 @@ module.exports.scrapeTaste = function($, name, description, imagePath, ingredien
     });
     recipe = scrapeHelper.createRecipe(name, description, imagePath, ingredients, cookmethod, user, cooktime);
     return recipe;
-
+    }
 };

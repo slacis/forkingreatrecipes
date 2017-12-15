@@ -1,3 +1,45 @@
 .container {
   margin-bottom: 50px;
 }
+
+.black-button{
+  background-color:#000000!important;
+  color:#ffffff!important;
+}
+
+.bg-gradient {
+  background: rgba(255,255,255,1);
+  background: -moz-linear-gradient(left, rgba(255,255,255,1) 0%, rgba(252,251,254,1) 50%, rgba(242,240,250,1) 83%, rgba(233,232,248,1) 100%);
+  background: -webkit-gradient(left top, right top, color-stop(0%, rgba(255,255,255,1)), color-stop(50%, rgba(252,251,254,1)), color-stop(83%, rgba(242,240,250,1)), color-stop(100%, rgba(233,232,248,1)));
+  background: -webkit-linear-gradient(left, rgba(255,255,255,1) 0%, rgba(252,251,254,1) 50%, rgba(242,240,250,1) 83%, rgba(233,232,248,1) 100%);
+  background: -o-linear-gradient(left, rgba(255,255,255,1) 0%, rgba(252,251,254,1) 50%, rgba(242,240,250,1) 83%, rgba(233,232,248,1) 100%);
+  background: -ms-linear-gradient(left, rgba(255,255,255,1) 0%, rgba(252,251,254,1) 50%, rgba(242,240,250,1) 83%, rgba(233,232,248,1) 100%);
+  background: linear-gradient(to right, rgba(255,255,255,1) 0%, rgba(252,251,254,1) 50%, rgba(242,240,250,1) 83%, rgba(233,232,248,1) 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#e9e8f8', GradientType=1 );
+}
+
+.bg-image {
+  background-image: url("../assets/images/bg1.png");
+  background-repeat: repeat;
+  min-height: 768px;
+  height:100%;
+}
+
+.bg-white {
+  padding: 10px 50px;
+  border-left: 2px slategrey outset;
+  border-right: 2px slategrey solid;
+  border-bottom: 2px slategrey solid;
+  background-color: white;
+  font-family: 'Vidaloka', cursive;
+  min-height:738px;
+}
+
+@media screen and (max-width: 420px){
+  body{
+    height: 100%;
+  }
+  .bg-image {
+    height:100%
+  }
+}

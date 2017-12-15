@@ -1,13 +1,14 @@
-<div class="container" id="banner">
-  <div class="row">
-    <div class="col-md-8 col-xs-12 ">
+<div id="banner">
+  <div class="row text-center">
+    <div class="col-md-12 col-xs-12 ">
       <span class="logo">Forking Grate Recipes</span>
+      <hr class="faded-hr">
     </div>
   </div>
 </div>
-<nav class="navbar navbar-light" style="background-color: #e3f2fd;">
+<nav class="navbar navbar-light navbar-colors navbar-mob-spacing">
   <div class="container-fluid">
-    <ul class="nav navbar-nav">
+    <ul class="nav navbar-nav navbar-left">
       <li [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact: true}"><a [routerLink]="['/']">Home</a></li>
     </ul>
     <ul class="nav navbar-nav navbar-right">
@@ -17,4 +18,5 @@
       <li *ngIf="isLoggedIn()" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact: true}"><a [routerLink]="['/profile']">Profile</a></li>
     </ul>
   </div>
+  <hr class="faded-hr">
 </nav>

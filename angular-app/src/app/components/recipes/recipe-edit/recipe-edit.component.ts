@@ -15,6 +15,10 @@ export class RecipeEditComponent implements OnInit {
   id: number;
   editMode = false;
   recipeForm: FormGroup;
+  supportedSites = [
+    {name:"Taste", url:"http://taste.com.au"},
+    {name:"Delicious", url:"http://delicious.com.au"}
+]
   constructor(private route: ActivatedRoute,
               private recipeService: RecipeService,
               private router: Router,
@@ -44,8 +48,8 @@ export class RecipeEditComponent implements OnInit {
     if (!this.editMode){
       recipecookTime.push(
         new FormGroup({
-          'cookTime': new FormControl(0, Validators.required),
-          'prepTime': new FormControl(0, Validators.required),
+          'cookTime': new FormControl(0),
+          'prepTime': new FormControl(0),
         }));
     }
     //If we're in edit mode, read in the values of the recipe into initialized form
@@ -54,8 +58,8 @@ export class RecipeEditComponent implements OnInit {
       recipeName = recipe.name;
       recipecookTime.push(
         new FormGroup({
-          'cookTime': new FormControl(recipe.cooktime.cookTime, Validators.required),
-          'prepTime': new FormControl(recipe.cooktime.prepTime, Validators.required),
+          'cookTime': new FormControl(recipe.cooktime.cookTime),
+          'prepTime': new FormControl(recipe.cooktime.prepTime),
         }));
 
       recipeImagePath = recipe.imagePath;

@@ -76,7 +76,7 @@ router.delete('/recipe',  passport.authenticate('jwt', {session: false}),  (req,
                 res.json({success: false, msg:'failed to delete recipe'})
                 console.log(err)
             } else {
-                res.json({success: true, msg:'successfully deleted recipe: ' + recipe.name})
+                res.json({success: true, msg:'successfully deleted recipe: ' + req.body.name})
                 console.log("success")
             }
         })

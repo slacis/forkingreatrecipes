@@ -7,7 +7,8 @@ const   express = require('express'),
     rp = require('request-promise'),
     delicious = require('./scrapers/delicious'),
     taste = require('./scrapers/taste'),
-    scrapeHelper = require('./scrapers/scrapeHelper');
+    scrapeHelper = require('./scrapers/scrapeHelper'),
+    validUrl = require('valid-url');
 
 
 json = {    name : "",
@@ -21,13 +22,20 @@ json = {    name : "",
 //  SCRAPE  ROUTE
 router.post("/scrapeurl", passport.authenticate('jwt', {session: false}), (req, res, next) => {
     // Prepare for loading page into Cherio
-    var options = {
-        uri: req.body.url,
-        transform: function (body) {
-            return cheerio.load(body);
-        }
-    };
-    runCherio(req, res, options, next)
+    let uri = req.body.url
+    if (validUrl.isUri(uri)){
+        var options = {
+            uri: req.body.url,
+            transform: function (body) {
+                return cheerio.load(body);
+            }
+        };
+        runCherio(req, res, options, next)
+    } else {
+        console.log('here')
+        return next(new Error('not a valid uri'))
+    }
+
 });
 
 
@@ -65,7 +73,7 @@ function runCherio(req, res, options, next) {
                 // Delicious
                 case 0:
                     recipe =
-                        delicious.scrapeDelicious($, name, description, imagePath, ingredients, cookmethod, req.user._id, cooktime);
+                        delicious.scrapeDelicious($, name, description, imagePath, ingredients, cookmethod, req.user._id, cooktime, next);
                     console.log(recipe)
                     scrapeHelper.postRecipe(recipe, res);
                     break;
@@ -73,7 +81,7 @@ function runCherio(req, res, options, next) {
                 case 1:
                     console.log('case1');
                     recipe =
-                        taste.scrapeTaste($, name, description, imagePath, ingredients, cookmethod, req.user._id, cooktime);
+                        taste.scrapeTaste($, name, description, imagePath, ingredients, cookmethod, req.user._id, cooktime, next);
                     console.log(recipe);
                     scrapeHelper.postRecipe(recipe, res);
                     break;

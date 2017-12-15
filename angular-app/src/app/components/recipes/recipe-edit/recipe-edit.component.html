@@ -16,18 +16,31 @@
       <div class="col-xs-12">
         <div class="form-group">
           <label for="scrapeURL">Enter recipe URL</label>
-          <input type="text" [(ngModel)]="scrapeURL" class="form-control" id="scrapeURL" pl>
+          <input type="text" [(ngModel)]="scrapeURL" class="form-control upper-buttons" id="scrapeURL" pl>
+          <div class="row">
+            <div class="col-xs-12">
+              <div class="form-group">
+                <button class="btn btn-success" (click)="onScrape()">Scrape</button>
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-xs-12">
-        <div class="form-group">
-          <button class="btn btn-success" (click)="onScrape()">Scrape</button>
+
+        <p> Please enter a URL to a recipe page from any of the following websites:</p>
+        <div *ngFor="let site of supportedSites">
+          <h4><strong>{{site.name}}:</strong> {{site.url}}</h4>
+        </div>
+        <hr>
+        <div class="example-url text-center">
+          <h4> <strong>Example</strong></h4>
+          <h5> Copy and paste the following URL into the "Enter Recipe URL" box to scrape the recipe below </h5>
+          <h5> <strong>Triple-Choc Flake Cake </strong></h5>
+          <textarea class="form-control">http://www.taste.com.au/recipes/triple-choc-flake-cake/caa06e7f-ed0f-466c-8536-c0ab21759cfd?r=recipes/christmasdesserts&c=8b9d2ad6-30d9-4554-be2a-017fcf496ea3/Christmas%20desserts</textarea>
         </div>
       </div>
     </div>
   </div>
+
 
   <div *ngIf="inputMethod==='manual' || editMode" class="row">
     <div class="col-xs-12">
