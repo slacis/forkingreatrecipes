@@ -14,8 +14,8 @@ export class DataStorageService {
               private authService: AuthService) {
   }
   headers;
-  server = 'https://forkingrate.slacis.me';
-  // server = 'https://localhost:3000';
+  // server = 'server = 'https://liveserver.com/';
+  server = 'https://localhost:3000';
   // Function to create headers, add token, to be used in HTTP requests
   createAuthenticationHeaders() {
     this.headers = new Headers();
