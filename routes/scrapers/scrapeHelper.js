@@ -15,7 +15,7 @@ module.exports.createRecipe = function(name, description, imagePath, ingredients
     return recipe
 };
 
-// Function to post generated recipe
+// Function to add generated recipe to database
 
 module.exports.postRecipe = function(recipe, res) {
     Recipe.addRecipe(recipe,

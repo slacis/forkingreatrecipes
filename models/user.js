@@ -1,6 +1,6 @@
 const   mongoose = require('mongoose'),
-        bcrypt = require('bcryptjs'),
-        config = require('../config/database');
+    bcrypt = require('bcryptjs'),
+    config = require('../config/database');
 
 // USER SCHEMA
 
@@ -50,9 +50,9 @@ module.exports.addUser = function(newUser, callback){
 module.exports.comparePassword = function(candidatePass, hash, callback) {
     bcrypt.compare(candidatePass, hash,
         (err, isMatch) => {
-        if(err) throw err;
-    callback(null, isMatch);
-})
+            if(err) throw err;
+            callback(null, isMatch);
+        })
 
 
 

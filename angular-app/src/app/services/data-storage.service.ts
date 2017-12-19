@@ -13,9 +13,9 @@ export class DataStorageService {
   constructor(private http: Http, private recipeService: RecipeService,
               private authService: AuthService) {
   }
-  headers
-  // server =  'http://ec2-34-224-88-234.compute-1.amazonaws.com:8080'
-  server = 'http://localhost:3000';
+  headers;
+  server = 'https://forkingrate.slacis.me';
+  // server = 'https://localhost:3000';
   // Function to create headers, add token, to be used in HTTP requests
   createAuthenticationHeaders() {
     this.headers = new Headers();

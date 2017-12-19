@@ -4,9 +4,19 @@ const   express = require('express'),
     cors = require('cors'),
     passport = require('passport'),
     mongoose = require('mongoose'),
-    config = require('./config/database');
+    config = require('./config/database'),
+    http = require('http'),
+    https = require('https'),
+    fs = require('fs');
 
 const app = express();
+
+// SSL CERTS
+const options = {
+    cert: fs.readFileSync('./sslcert/fullchain.pem'),
+    key: fs.readFileSync('./sslcert/privkey.pem')
+};
+
 //  ROUTE FILES
 const users = require('./routes/users');
 const scrape = require('./routes/scrape');
@@ -19,6 +29,9 @@ app.use(bodyParser.json())
 //  ACTIVATE CORS
 app.use(cors());
 
+//  LIMIT MAXIMUM SOCKETS USED TO PREVENT FLOODING
+http.globalAgent.maxSockets = 1;
+https.globalAgent.maxSockets = 1;
 
 
 //  PASSPORT MIDDLEWARE
@@ -52,7 +65,6 @@ app.use('', scrape);
 app.use('', recipe);
 
 // ERROR MIDDLEWARE
-
 app.use((err, req, res, next) => {
     console.log(err);
     if (res.headersSent) {
@@ -78,3 +90,6 @@ app.get('*', (req, res) => {
 app.listen(port, () => {
     console.log('server started on port: ' + port)
 });
+
+//  CREATE HTTPS SERVER
+https.createServer(options, app).listen(8443);

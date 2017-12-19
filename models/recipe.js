@@ -1,7 +1,7 @@
 const       mongoose = require('mongoose'),
-            config = require('../config/database'),
-            Ingredient = require('./classes/ingredient'),
-            CookMethod = require('./classes/cookmethod');
+    config = require('../config/database'),
+    Ingredient = require('./classes/ingredient'),
+    CookMethod = require('./classes/cookmethod');
 
 
 // RECIPE SCHEMA

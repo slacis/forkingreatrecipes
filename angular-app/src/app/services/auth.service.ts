@@ -7,8 +7,8 @@ import { tokenNotExpired } from 'angular2-jwt'
 export class AuthService {
   authToken: any;
   user: any;
-  // server = 'http://ec2-34-224-88-234.compute-1.amazonaws.com:8080';
-  server = 'http://localhost:3000'
+  server = 'https://forkingrate.slacis.me';
+  // server = 'http://localhost:3000'
   constructor(private http: Http) { }
 
 
